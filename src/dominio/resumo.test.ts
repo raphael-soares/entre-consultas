@@ -28,25 +28,25 @@ describe('lerPergunta9', () => {
   it('conta as semanas da sequência positiva mais recente', () => {
     expect(lerPergunta9(h(['07-26', 0], ['08-09', 1], ['08-23', 2], ['11-01', 1]))).toEqual({
       positiva: true,
-      titulo: 'Positiva há 12 semanas',
+      titulo: 'Presente há 12 semanas',
       detalhe: 'Nas últimas 3 respostas, desde 09/08',
     })
   })
 
   it('separa a primeira positiva de uma que volta', () => {
     expect(lerPergunta9(h(['10-01', 0], ['10-15', 1])).detalhe).toBe('Primeira vez neste acompanhamento')
-    expect(lerPergunta9(h(['10-01', 2], ['10-15', 0], ['10-29', 1])).detalhe).toBe('Positiva em 2 de 3 respostas')
+    expect(lerPergunta9(h(['10-01', 2], ['10-15', 0], ['10-29', 1])).detalhe).toBe('Apareceu em 2 de 3 respostas')
   })
 
   it('última negativa ainda mostra quando foi a última positiva', () => {
     expect(lerPergunta9(h(['10-01', 1], ['10-15', 1], ['10-29', 0]))).toEqual({
       positiva: false,
-      titulo: 'Negativa na última resposta',
-      detalhe: 'Positiva em 2 de 3, a última em 15/10',
+      titulo: 'Ausente na última resposta',
+      detalhe: 'Apareceu em 2 de 3, a última em 15/10',
     })
   })
 
   it('sem nenhuma positiva', () => {
-    expect(lerPergunta9(h(['10-01', 0], ['10-15', 0])).titulo).toBe('Sempre negativa')
+    expect(lerPergunta9(h(['10-01', 0], ['10-15', 0])).titulo).toBe('Nunca apareceu')
   })
 })

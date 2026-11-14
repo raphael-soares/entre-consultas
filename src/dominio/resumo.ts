@@ -32,26 +32,26 @@ export function lerPergunta9(historico: { data: string; valor: number }[]): Leit
     const inicio = historico[n - seguidas].data
     return {
       positiva: true,
-      titulo: `Positiva há ${vezes(semanasEntre(inicio, historico[n - 1].data), 'semana', 'semanas')}`,
+      titulo: `Presente há ${vezes(semanasEntre(inicio, historico[n - 1].data), 'semana', 'semanas')}`,
       detalhe: `Nas últimas ${seguidas} respostas, desde ${dataCurta(inicio)}`,
     }
   }
   if (seguidas === 1) {
     return {
       positiva: true,
-      titulo: 'Positiva na última resposta',
+      titulo: 'Presente na última resposta',
       detalhe:
-        positivas.length === 1 ? 'Primeira vez neste acompanhamento' : `Positiva em ${positivas.length} de ${n} respostas`,
+        positivas.length === 1 ? 'Primeira vez neste acompanhamento' : `Apareceu em ${positivas.length} de ${n} respostas`,
     }
   }
   if (positivas.length > 0) {
     return {
       positiva: false,
-      titulo: 'Negativa na última resposta',
-      detalhe: `Positiva em ${positivas.length} de ${n}, a última em ${dataCurta(positivas.at(-1)!.data)}`,
+      titulo: 'Ausente na última resposta',
+      detalhe: `Apareceu em ${positivas.length} de ${n}, a última em ${dataCurta(positivas.at(-1)!.data)}`,
     }
   }
-  return { positiva: false, titulo: 'Sempre negativa', detalhe: n === 1 ? 'Na única resposta' : `Nas ${n} respostas` }
+  return { positiva: false, titulo: 'Nunca apareceu', detalhe: n === 1 ? 'Na única resposta' : `Nas ${n} respostas` }
 }
 
 // R.F. 008: a parte do encaminhamento que sai do sistema.

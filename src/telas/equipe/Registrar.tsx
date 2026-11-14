@@ -101,7 +101,7 @@ export function Registrar() {
                 <div role="alert" className="flex items-start gap-3 rounded-lg bg-risco px-4 py-3 text-[15px] text-white">
                   <Phone className="mt-0.5 size-5 shrink-0" aria-hidden />
                   <p>
-                    <strong>Pergunta 9 positiva.</strong> Antes de encerrar o atendimento, fale com o paciente sobre o
+                    <strong>Pensou em se ferir.</strong> Antes de encerrar o atendimento, fale com o paciente sobre o
                     risco e passe o CVV (188, gratuito, 24 horas).
                   </p>
                 </div>

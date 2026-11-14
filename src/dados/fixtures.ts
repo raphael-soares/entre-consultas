@@ -165,7 +165,7 @@ export const ENCAMINHAMENTOS: Encaminhamento[] = [
     psiquiatraId: 'marcos',
     profissionalId: 'juliana',
     data: DATA_ENCAMINHAMENTO_ROBERTO,
-    motivo: 'Pergunta 9 positiva há 12 semanas seguidas e pontuação sem queda depois de 17 semanas de acompanhamento.',
+    motivo: 'Pensamentos de se ferir há 12 semanas seguidas e pontuação sem queda depois de 17 semanas de acompanhamento.',
     prejuizoFuncional: 'Afastado do trabalho há 3 meses. Deixou de sair de casa sozinho e de ir à igreja.',
     tratamentos: 'Fluoxetina 20 mg por 8 semanas e depois 40 mg por 6 semanas, sem melhora. Acompanhamento com a enfermagem da unidade.',
     resumo: resumoEncaminhamento(

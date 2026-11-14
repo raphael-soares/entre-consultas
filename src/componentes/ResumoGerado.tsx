@@ -31,7 +31,7 @@ export function ResumoGerado({ resumo }: { resumo: ResumoEncaminhamento }) {
         <strong>{resumo.semanas} semanas</strong>
       </p>
       <div className="flex flex-col gap-2">
-        <p className="text-muted-foreground">Pergunta 9 (pensar em se ferir)</p>
+        <p className="text-muted-foreground">Pensamentos de se ferir</p>
         <div>
           <p className={cn('font-semibold', pergunta9.positiva && 'text-risco')}>{pergunta9.titulo}</p>
           {pergunta9.detalhe && <p className="text-[13px] text-muted-foreground">{pergunta9.detalhe}</p>}
