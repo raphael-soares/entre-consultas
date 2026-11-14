@@ -167,7 +167,7 @@ export function WhatsApp() {
           </span>
           <div className="min-w-0 flex-1 pl-1 leading-tight">
             <p className="truncate text-[17px] font-semibold">Entre Consultas</p>
-            <p className="truncate text-[13px] text-white/85">Conta comercial</p>
+            <p className="truncate text-[13px] text-white">Conta comercial</p>
           </div>
           <span aria-hidden className="flex items-center">
             <Video className="m-2.5 size-[22px]" />

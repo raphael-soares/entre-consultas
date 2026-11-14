@@ -84,7 +84,7 @@ export function Registrar() {
       <section className="rounded-xl bg-card px-5 py-4 ring-1 ring-border">
         <h2 className="text-[15px] font-semibold">PHQ-9</h2>
         <p className="text-[14px] text-muted-foreground">{ENUNCIADO}</p>
-        <div className={cn(GRADE, 'sticky top-0 z-10 mt-3 border-b bg-card py-2')} aria-hidden>
+        <div className={cn(GRADE, 'sticky top-0 z-10 -mx-2 mt-3 border-b bg-card px-2 py-2')} aria-hidden>
           <span />
           {OPCOES.map((o) => (
             <span key={o} className="text-center text-[12px] leading-tight font-medium text-muted-foreground">

@@ -76,7 +76,7 @@ export interface Faixa {
 export const FAIXAS: Faixa[] = [
   { id: 'minima', nome: 'Mínima', min: 0, max: 4, cor: '#1B7F3B', ordem: 0 },
   { id: 'leve', nome: 'Leve', min: 5, max: 9, cor: '#7A6400', ordem: 1 },
-  { id: 'moderada', nome: 'Moderada', min: 10, max: 14, cor: '#B35900', ordem: 2 },
+  { id: 'moderada', nome: 'Moderada', min: 10, max: 14, cor: '#A35100', ordem: 2 },
   { id: 'moderadamente-grave', nome: 'Moderadamente grave', min: 15, max: 19, cor: '#C2410C', ordem: 3 },
   { id: 'grave', nome: 'Grave', min: 20, max: 27, cor: '#B3261E', ordem: 4 },
 ]
