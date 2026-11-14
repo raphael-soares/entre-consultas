@@ -26,15 +26,15 @@ export function MolduraCelular({
   const cores = ESTILOS[estilo]
 
   return (
-    <div className="h-svh min-[501px]:flex min-[501px]:h-auto min-[501px]:min-h-svh min-[501px]:flex-col min-[501px]:items-center min-[501px]:justify-center min-[501px]:gap-3 min-[501px]:py-5">
-      {legenda && <p className="hidden text-sm font-medium text-muted-foreground min-[501px]:block">{legenda}</p>}
+    <div className="h-svh min-[501px]:flex min-[501px]:h-auto min-[501px]:min-h-svh min-[501px]:flex-col min-[501px]:items-center min-[501px]:justify-center min-[501px]:gap-3 min-[501px]:bg-palco min-[501px]:py-5">
+      {legenda && <p className="hidden text-sm font-medium text-palco-foreground min-[501px]:block">{legenda}</p>}
       <div className="h-full min-[501px]:flex min-[501px]:h-auto min-[501px]:items-center min-[501px]:gap-10">
         <div className="relative h-full min-[501px]:h-auto">
-          <span aria-hidden className="absolute top-[150px] -left-[13px] hidden h-8 w-[4px] rounded-l bg-[#2c2c2e] min-[501px]:block" />
-          <span aria-hidden className="absolute top-[200px] -left-[13px] hidden h-14 w-[4px] rounded-l bg-[#2c2c2e] min-[501px]:block" />
-          <span aria-hidden className="absolute top-[270px] -left-[13px] hidden h-14 w-[4px] rounded-l bg-[#2c2c2e] min-[501px]:block" />
-          <span aria-hidden className="absolute top-[220px] -right-[13px] hidden h-20 w-[4px] rounded-r bg-[#2c2c2e] min-[501px]:block" />
-          <div className="flex h-full flex-col overflow-hidden bg-background min-[501px]:h-[min(844px,calc(100svh-4.5rem))] min-[501px]:w-[390px] min-[501px]:rounded-[52px] min-[501px]:border-[10px] min-[501px]:border-[#1c1c1e] min-[501px]:shadow-2xl">
+          <span aria-hidden className="absolute top-[150px] -left-[3px] hidden h-8 w-[4px] rounded-l-sm bg-[#3a3a3c] min-[501px]:block" />
+          <span aria-hidden className="absolute top-[200px] -left-[3px] hidden h-14 w-[4px] rounded-l-sm bg-[#3a3a3c] min-[501px]:block" />
+          <span aria-hidden className="absolute top-[270px] -left-[3px] hidden h-14 w-[4px] rounded-l-sm bg-[#3a3a3c] min-[501px]:block" />
+          <span aria-hidden className="absolute top-[220px] -right-[3px] hidden h-20 w-[4px] rounded-r-sm bg-[#3a3a3c] min-[501px]:block" />
+          <div className="flex h-full flex-col overflow-hidden bg-background min-[501px]:h-[min(844px,calc(100svh-4.5rem))] min-[501px]:w-[390px] min-[501px]:rounded-[52px] min-[501px]:border-[10px] min-[501px]:border-[#1c1c1e] min-[501px]:shadow-2xl min-[501px]:ring-1 min-[501px]:ring-[#5a5a5e]">
             <div
               aria-hidden
               className={cn('relative h-[47px] shrink-0 items-center justify-between px-8 pt-1', cenario, cores.status)}

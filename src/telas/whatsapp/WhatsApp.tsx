@@ -148,7 +148,7 @@ export function WhatsApp() {
       estilo="whatsapp"
       legenda="WhatsApp da paciente Ana Beatriz, sem login"
       lado={
-        <div className="flex flex-col gap-3 text-[15px] text-muted-foreground">
+        <div className="flex flex-col gap-3 text-[15px] text-palco-foreground">
           <p>
             Conversa simulada. A paciente recebe o lembrete no dia previsto e responde as mesmas perguntas do site, uma
             por mensagem.
