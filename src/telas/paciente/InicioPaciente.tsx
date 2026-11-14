@@ -1,4 +1,4 @@
-import { CalendarDays, ChevronRight, ClipboardList, LogOut, MessageCircle, Phone } from 'lucide-react'
+import { CalendarDays, ChevronRight, ClipboardList, LogOut, Phone } from 'lucide-react'
 import { Link, useNavigate } from 'react-router'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { Logo } from '@/componentes/Logo'
@@ -83,19 +83,6 @@ export function InicioPaciente() {
         </span>
         <ChevronRight className="size-5 text-muted-foreground" aria-hidden />
       </Link>
-
-      {cadastro.celular && (
-        <div className="flex items-start gap-3 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
-          <MessageCircle className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
-          <div>
-            <p className="text-[17px] font-semibold">Também pelo WhatsApp</p>
-            <p className="text-[15px] text-muted-foreground">
-              No dia, chega uma mensagem no <span className="whitespace-nowrap">{cadastro.celular}</span> e você responde
-              por lá.
-            </p>
-          </div>
-        </div>
-      )}
 
       <a href="tel:188" className="mt-auto flex min-h-11 items-center gap-3 rounded-xl px-1 py-2 text-[15px]">
         <span className="grid size-10 shrink-0 place-items-center rounded-full bg-card text-primary ring-1 ring-border">
