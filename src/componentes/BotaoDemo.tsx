@@ -27,12 +27,16 @@ export function BotaoDemo() {
   if (print) return null
 
   return (
-    <div className="fixed bottom-4 left-4 z-40">
+    <div className="fixed right-3 bottom-24 z-40 min-[501px]:right-auto min-[501px]:bottom-4 min-[501px]:left-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="shadow-md">
+          <Button
+            variant="outline"
+            aria-label="Demonstração"
+            className="size-11 rounded-full p-0 shadow-md min-[501px]:h-9 min-[501px]:w-auto min-[501px]:rounded-lg min-[501px]:px-3"
+          >
             <FlaskConical aria-hidden />
-            Demonstração
+            <span className="hidden min-[501px]:inline">Demonstração</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" side="top" className="w-64">

@@ -6,6 +6,7 @@ import { InicioPaciente } from '@/telas/paciente/InicioPaciente'
 import { LayoutPaciente } from '@/telas/paciente/LayoutPaciente'
 import { Questionario } from '@/telas/paciente/Questionario'
 import { Respostas } from '@/telas/paciente/Respostas'
+import { WhatsApp } from '@/telas/whatsapp/WhatsApp'
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Inicio /> },
       { path: 'login', element: <Login /> },
+      { path: 'whatsapp', element: <WhatsApp /> },
       {
         path: 'paciente',
         element: <Protegida perfil="paciente" />,
