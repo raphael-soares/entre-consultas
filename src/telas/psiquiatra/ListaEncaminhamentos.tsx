@@ -90,10 +90,13 @@ function Linha({ caso }: { caso: CasoEncaminhado }) {
   const total = ultima ? pontuacao(ultima.itens) : null
   const f = total !== null ? faixa(total) : null
   const pergunta9 = lerPergunta9(respostas.map((r) => ({ data: r.data, valor: r.itens[8] })))
-  const destino = `encaminhamentos/${encaminhamento.id}`
+  const destino = `/psiquiatra/encaminhamentos/${encaminhamento.id}`
 
   return (
-    <tr onClick={() => navigate(destino)} className="cursor-pointer align-top transition-colors hover:bg-background">
+    <tr
+      onClick={(e) => (e.target as HTMLElement).closest('a') || navigate(destino)}
+      className="cursor-pointer align-top transition-colors hover:bg-background"
+    >
       <td className="py-3 pr-3 pl-5">
         <Link to={destino} className="text-[15px] leading-snug font-semibold hover:underline">
           {cadastro.nome}
