@@ -30,17 +30,13 @@ export function BotaoDemo() {
     <div className="fixed right-3 bottom-24 z-40 min-[501px]:right-4 min-[501px]:bottom-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            aria-label="Demonstração"
-            className="size-11 rounded-full p-0 shadow-md min-[501px]:h-9 min-[501px]:w-auto min-[501px]:rounded-lg min-[501px]:px-3"
-          >
+          <Button variant="outline" size="icon" aria-label="Demonstração" className="rounded-full shadow-md">
             <FlaskConical aria-hidden />
-            <span className="hidden min-[501px]:inline">Demonstração</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" side="top" className="w-64">
-          <DropdownMenuLabel>Entrar como</DropdownMenuLabel>
+          <DropdownMenuLabel>Demonstração</DropdownMenuLabel>
+          <DropdownMenuLabel className="pt-0 font-normal text-muted-foreground">Entrar como</DropdownMenuLabel>
           {CONTAS_DEMO.map((u) => (
             <DropdownMenuItem
               key={u.id}

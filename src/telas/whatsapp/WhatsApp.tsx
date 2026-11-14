@@ -238,8 +238,8 @@ export function WhatsApp() {
 
 // Ponta do balão; a sombra vem de drop-shadow para contornar balão e ponta juntos.
 const PONTA = {
-  equipe: 'M8 0H1.6C.4 0-.2 1.3.6 2.2L8 11z',
-  paciente: 'M0 0h6.4c1.2 0 1.8 1.3 1 2.2L0 11z',
+  equipe: 'M9 0H1.6C.4 0-.2 1.3.6 2.2L8 11h1z',
+  paciente: 'M0 0h7.4c1.2 0 1.8 1.3 1 2.2L1 11H0z',
 }
 
 function Balao({
@@ -281,8 +281,8 @@ function Balao({
           {inicio && (
             <svg
               aria-hidden
-              viewBox="0 0 8 11"
-              className={cn('absolute top-0 h-[11px] w-2', daEquipe ? '-left-2' : '-right-2')}
+              viewBox="0 0 9 11"
+              className={cn('absolute top-0 block h-[11px] w-[9px]', daEquipe ? '-left-2' : '-right-2')}
             >
               <path d={PONTA[mensagem.de]} fill="currentColor" />
             </svg>
