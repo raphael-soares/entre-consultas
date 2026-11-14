@@ -94,12 +94,14 @@ export function InicioPaciente() {
         </p>
       )}
 
-      <a
-        href="tel:188"
-        className="mt-auto flex min-h-11 items-center justify-center gap-2 text-center text-[15px] text-muted-foreground"
-      >
-        <Phone className="size-4" aria-hidden />
-        Precisa conversar agora? CVV 188, grátis, 24 horas
+      <a href="tel:188" className="mt-auto flex min-h-11 items-center gap-3 rounded-xl px-1 py-2 text-[15px]">
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-card text-primary ring-1 ring-border">
+          <Phone className="size-[18px]" aria-hidden />
+        </span>
+        <span className="flex flex-col leading-snug">
+          <span className="font-medium">Precisa conversar agora?</span>
+          <span className="text-muted-foreground">Ligue 188 (CVV), grátis, 24 horas</span>
+        </span>
       </a>
     </div>
   )
