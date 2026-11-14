@@ -88,7 +88,19 @@ Vite, React, TypeScript, Tailwind, shadcn/ui e Recharts. Dados fictícios, sem b
 
 ### Identidade visual
 
-A da arte [`identidade-visual.jpg`](identidade-visual.jpg): fundo creme, verde do título como cor principal, laranja do bloco "Cuidado embutido" como cor de alerta. As cores exatas saem com conta-gotas da imagem.
+Fonte Inter. Fundo cinza-claro com cartões brancos, no jeito dos apps de celular; o azul vem do padrão de governo (gov.br), para o sistema parecer serviço público e não app comercial.
+
+| Uso | Cor |
+|---|---|
+| Principal (botões, links, linha do gráfico) | `#1351B4`, hover `#0C326F` |
+| Fundo / cartão | `#F2F2F7` / `#FFFFFF` |
+| Texto / texto secundário | `#1C1C1E` / `#6C6C70` |
+| Destaque de seleção | fundo `#EAF0FA`, texto `#0C326F` |
+| Risco e alerta do CVV | `#B3261E` |
+| Faixas do PHQ-9 | Mínima `#1B7F3B`, Leve `#7A6400`, Moderada `#B35900`, Moderadamente grave `#C2410C`, Grave `#B3261E` |
+| Conversa do WhatsApp | topo `#008069`, fundo `#EFEAE2`, balão do paciente `#D9FDD3` |
+
+Toda cor de texto passa no contraste AA sobre o fundo em que aparece; o selo de faixa usa fundo branco porque o laranja da Moderada não passa sobre fundo tingido.
 
 ### Login
 
@@ -101,7 +113,7 @@ Rota `/whatsapp` com moldura de celular imitando o WhatsApp (contato "Entre Cons
 1. Começa no lembrete (R.F. 010) com os botões "Responder aqui" e "Responder no site".
 2. "Responder aqui" segue a conversa: uma pergunta do PHQ-9 por mensagem, lista com "Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias". Cada toque vira balão do paciente e traz a próxima pergunta.
 3. Pergunta 9 diferente de "Nenhuma vez" manda a mensagem do CVV antes de seguir.
-4. Estressores: lista com as 7 opções, depois "Mais algum?" com "Sim" e "Não, terminar".
+4. Estressores: lista com as 7 opções e "Nenhuma delas", depois "Mais algum?" com "Sim" e "Não, terminar".
 5. Fim: "Suas respostas foram enviadas para a sua equipe".
 
 Um botão discreto fora da moldura reinicia a conversa para a demonstração.
@@ -168,6 +180,33 @@ Script Playwright (`pnpm prints`) salva em `prints/`. Título no documento: "R.F
 | 16-rf009-resumo.png | Resumo do psiquiatra | web |
 | 17-rf010-lembrete-whatsapp.png | Lembrete com os dois botões | celular |
 | 18-rf011-transferir.png | Diálogo de transferência | web |
+
+### Tecnologia do protótipo
+
+**Stack.** Vite, React 19 e TypeScript; Tailwind 4 com componentes shadcn/ui; Recharts no gráfico de evolução; React Router nas rotas; React Hook Form com Zod nos formulários; Sonner nos avisos. Vitest testa as regras de domínio e Playwright gera os prints.
+
+**Estado.** Sem backend. Os dados fictícios ficam em `src/dados/fixtures.ts` e a data de hoje é fixa em 27/11/2026, para estados e prints saírem iguais toda vez. Uma store Zustand guarda sessão, respostas, acompanhamentos, encaminhamentos e transferências no `localStorage`; o botão "Demonstração" troca de perfil e volta ao estado inicial. As regras (pontuação, faixas, destaques da lista, datas previstas, lembretes, lacunas, resumo do encaminhamento) ficam em `src/dominio`, sem React, com testes.
+
+**Rotas.**
+
+| Rota | Tela | Perfil |
+|---|---|---|
+| `/login` | Login | nenhum |
+| `/paciente` | Início do paciente | paciente |
+| `/paciente/questionario?passo=1..9, alerta, estressores, fim` | Questionário no site | paciente |
+| `/paciente/respostas` | Respostas anteriores | paciente |
+| `/whatsapp?passo=lembrete, pergunta-N, alerta, estressores, mais, fim` | Conversa do WhatsApp da Ana | nenhum |
+| `/equipe` | Lista de pacientes | profissional |
+| `/equipe/abrir` | Abrir acompanhamento | profissional |
+| `/equipe/pacientes/:id` (`?dialogo=encerrar` ou `transferir`) | Evolução, encerramento e transferência | profissional |
+| `/equipe/pacientes/:id/registrar` | Registrar respostas | profissional |
+| `/equipe/pacientes/:id/encaminhar` | Encaminhar ao especialista | profissional |
+| `/psiquiatra` | Encaminhamentos recebidos | psiquiatra |
+| `/psiquiatra/encaminhamentos/:id` | Resumo do psiquiatra | psiquiatra |
+
+Cada passo intermediário abre direto pela URL e preenche respostas anteriores de exemplo, para a tela fazer sentido sozinha.
+
+**Prints.** `pnpm prints` builda o projeto, sobe o `vite preview`, injeta a sessão de cada perfil no `localStorage`, abre a tela de cada print com `?print=1` (esconde o botão de demonstração e mostra a barra de status do celular) e salva em `prints/`. Em cada tela roda o axe e falha se houver contraste abaixo de AA.
 
 ## Matriz de rastreabilidade
 
