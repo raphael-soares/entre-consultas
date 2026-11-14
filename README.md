@@ -19,7 +19,7 @@ Abra o endereço que o Vite mostrar (por padrão http://localhost:5173). Tudo fi
 
 ## Contas de demonstração
 
-Senha de todas: `demo1234`.
+O login é "Entrar com gov.br" para os três perfis. A etapa do gov.br é uma simulação do protótipo: não há integração real, e a tela seguinte pede o CPF e a senha abaixo. Senha de todas: `demo1234`.
 
 | Perfil | CPF | Abre em |
 |---|---|---|
@@ -34,7 +34,9 @@ A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede l
 1. Em `/whatsapp`, responda como a Ana e marque "Vários dias" na última pergunta, sobre pensar em se ferir.
 2. Entre como Juliana: a Ana sobe para o topo da lista com o destaque Risco, e a evolução mostra o ponto novo com alerta e canal WhatsApp.
 3. Abra o Carlos, que aparece com "Sugere encaminhamento", e encaminhe para o Dr. Marcos.
-4. Entre como Marcos: o Carlos entra na lista de encaminhamentos na ordem de prioridade, e o resumo abre com as respostas completas no painel à direita.
+4. Entre como Marcos: o Carlos entra na lista de encaminhamentos como Novo, na ordem de prioridade, e o resumo abre com as respostas completas no painel à direita.
+5. No resumo do Carlos, marque a consulta e depois responda à unidade com conduta, medicação e quando reencaminhar.
+6. Volte como Juliana: a ficha do Carlos mostra a orientação do Dr. Marcos.
 
 ## Comandos
 
@@ -45,6 +47,6 @@ A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede l
 | `pnpm preview` | Serve o build em http://localhost:4173 |
 | `pnpm test` | Testes das regras de domínio (Vitest) |
 | `pnpm lint` | oxlint |
-| `pnpm prints` | Gera os 18 prints em `prints/` e falha se houver contraste abaixo de AA |
+| `pnpm prints` | Gera os 20 prints em `prints/` e falha se houver contraste abaixo de AA |
 
 `pnpm prints` usa o Chromium do Playwright. Na primeira vez, rode `pnpm exec playwright install chromium`.

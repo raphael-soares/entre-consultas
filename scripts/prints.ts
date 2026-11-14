@@ -32,6 +32,8 @@ const PRINTS: Print[] = [
   { arquivo: '16-rf009-resumo', url: '/psiquiatra/encaminhamentos/roberto', usuario: 'marcos' },
   { arquivo: '17-rf010-lembrete-whatsapp', url: '/whatsapp?passo=lembrete', celular: true },
   { arquivo: '18-rf011-transferir', url: '/equipe/pacientes/joao?dialogo=transferir', usuario: 'juliana' },
+  { arquivo: '19-rf012-responder', url: '/psiquiatra/encaminhamentos/tereza?painel=responder', usuario: 'marcos' },
+  { arquivo: '20-rf012-orientacao', url: '/equipe/pacientes/roberto', usuario: 'juliana' },
 ]
 
 async function fotografar(browser: Browser, base: string, print: Print): Promise<string[]> {
