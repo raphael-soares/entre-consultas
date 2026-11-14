@@ -97,7 +97,7 @@ Fonte Inter. Fundo cinza-claro com cartões brancos, no jeito dos apps de celula
 | Texto / texto secundário | `#1C1C1E` / `#6C6C70` |
 | Destaque de seleção | fundo `#EAF0FA`, texto `#0C326F` |
 | Risco e alerta do CVV | `#B3261E` |
-| Faixas do PHQ-9 | Mínima `#1B7F3B`, Leve `#7A6400`, Moderada `#B35900`, Moderadamente grave `#C2410C`, Grave `#B3261E` |
+| Faixas do PHQ-9 | Mínima `#1B7F3B`, Leve `#7A6400`, Moderada `#A35100`, Moderadamente grave `#C2410C`, Grave `#B3261E` |
 | Conversa do WhatsApp | topo `#008069`, fundo `#EFEAE2`, balão do paciente `#D9FDD3` |
 
 Toda cor de texto passa no contraste AA sobre o fundo em que aparece; o selo de faixa usa fundo branco porque o laranja da Moderada não passa sobre fundo tingido.
@@ -116,7 +116,7 @@ Rota `/whatsapp` com moldura de celular imitando o WhatsApp (contato "Entre Cons
 4. Estressores: lista com as 7 opções e "Nenhuma delas", depois "Mais algum?" com "Sim" e "Não, terminar".
 5. Fim: "Suas respostas foram enviadas para a sua equipe".
 
-Um botão discreto fora da moldura reinicia a conversa para a demonstração.
+O menu "Demonstração" reinicia a conversa.
 
 ### Dados fictícios
 
@@ -133,19 +133,29 @@ Unidade "UBS Bela Vista (fictícia)"; profissional "Enf. Juliana Costa"; psiquia
 | Luciana | Em dia, respostas registradas em visita domiciliar, sem celular | R.F. 004 |
 | Roberto | Encaminhado ao Dr. Marcos | R.F. 008, R.F. 009 |
 
+Na carteira do Dr. Rafael Souza, médico de família da mesma equipe, mais seis pacientes já encaminhados ao Dr. Marcos, para a lista do psiquiatra ter o que ordenar: Tereza (grave, pensamentos de se ferir nas três últimas respostas), Antônio (pensamento de se ferir pela primeira vez, em visita domiciliar), Diego, Marcelo, Patrícia e Rosângela (que melhorou depois do encaminhamento). Eles não aparecem na lista da Juliana.
+
+### Início da equipe
+
+Sem paciente aberto, a área ao lado da lista mostra o resumo do dia: os pacientes agrupados pelo destaque principal, com pontuação e faixa, e os questionários previstos para os próximos 7 dias. Na lista, cada paciente tem um selo só, o do destaque principal; os outros destaques aparecem como texto (R.N. 008).
+
 ### Tela R.F. 007: evolução do paciente
 
 Precisa ser fácil de entender; na consulta, é esta tela que o profissional mostra ao paciente.
 
 - Cabeçalho: nome, idade, responsável, início, periodicidade e próximo questionário.
-- Cartão "Agora": última pontuação, faixa (cor e texto), resposta ao tratamento em palavras e variação desde o início (ex.: "18 → 11, caiu 7").
-- Gráfico de linha com eixo de 0 a 27 e as cinco faixas coloridas ao fundo, rotuladas; marcador de alerta nas respostas com pergunta 9 positiva; linha interrompida nos períodos sem resposta; canal de cada resposta no detalhe do ponto.
+- Cartão "Agora": última pontuação, faixa (cor e texto), resposta ao tratamento em palavras e variação desde o início (ex.: "18 → 11, caiu 7"), semanas de acompanhamento e a leitura da pergunta 9 ("Presente há 4 semanas", "Ausente na última resposta").
+- Gráfico de linha com eixo de 0 a 27 e as cinco faixas coloridas ao fundo, rotuladas; marcador de alerta nas respostas com pergunta 9 positiva; linha interrompida nos períodos sem resposta; canal de cada resposta no detalhe do ponto. Embaixo do gráfico, um quadrado por resposta com a frequência da pergunta 9, em cor e no detalhe do ponto. Na tela, a pergunta 9 aparece como "pensamentos de se ferir".
 - Lateral: estressores mais marcados nas últimas 4 respostas e contexto social do e-SUS.
-- Botões: Registrar respostas, Encaminhar ao especialista e Transferir.
+- Botões: Registrar respostas, Encaminhar ao especialista e Transferir. Encerrar acompanhamento fica no menu "Mais ações".
 
-### Tela R.F. 009: resumo do psiquiatra
+A equipe da unidade vê a pontuação, a faixa e a pergunta 9, não as respostas item a item.
 
-Mesmo gráfico e cartão "Agora", mais o texto do encaminhamento. Só leitura.
+### Tela R.F. 009: encaminhamentos e resumo do psiquiatra
+
+Lista em tabela: paciente, unidade, última pontuação e faixa, pensamentos de se ferir, resposta ao tratamento, motivo e há quanto tempo chegou o encaminhamento. A ordem é pensamentos de se ferir na última resposta, depois a pontuação mais alta e, no empate, quem espera há mais tempo.
+
+Resumo: o texto do encaminhamento, o cartão "Agora", o mesmo gráfico e a tabela "Respostas ao longo do tempo", com cada pergunta (de 0 a 3) e cada estressor numa linha por data. Um painel fixo à direita abre na última resposta e mostra as nove perguntas por extenso, a resposta, a mudança desde a anterior e os estressores; troca de resposta pelas setas, pelos pontos do gráfico ou pelas datas da tabela. Só leitura. O painel e a tabela vão além do R.F. 007 e foram aprovados na revisão das telas.
 
 ### Boas práticas de UI
 
