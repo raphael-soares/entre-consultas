@@ -30,6 +30,13 @@ export function dataLonga(iso: string): string {
   return `${dia}/${mes}/${ano}`
 }
 
+const POR_EXTENSO = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' })
+
+export function dataPorExtenso(iso: string): string {
+  const texto = POR_EXTENSO.format(paraMs(iso))
+  return texto.charAt(0).toUpperCase() + texto.slice(1)
+}
+
 export function idade(nascimento: string, hoje: string): number {
   const [an, mn, dn] = nascimento.split('-').map(Number)
   const [ah, mh, dh] = hoje.split('-').map(Number)
