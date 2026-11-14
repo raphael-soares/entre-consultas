@@ -6,11 +6,11 @@ import { BadgeFaixa } from './BadgeFaixa'
 
 function Numero({ rotulo, valor }: { rotulo: string; valor: number | null }) {
   return (
-    <div>
-      <p className="text-[13px] text-muted-foreground">{rotulo}</p>
-      <div className="mt-1 flex flex-col items-start gap-1.5">
-        <span className="text-[28px] leading-none font-bold">{valor ?? '-'}</span>
-        {valor !== null && <BadgeFaixa pontuacao={valor} />}
+    <div className="flex items-center justify-between gap-3">
+      <p className="whitespace-nowrap text-muted-foreground">{rotulo}</p>
+      <div className="flex items-center gap-2">
+        <span className="text-[24px] leading-none font-bold tabular-nums">{valor ?? '-'}</span>
+        {valor !== null && <BadgeFaixa pontuacao={valor} className="text-[12px]" />}
       </div>
     </div>
   )
@@ -20,7 +20,7 @@ function Numero({ rotulo, valor }: { rotulo: string; valor: number | null }) {
 export function ResumoGerado({ resumo }: { resumo: ResumoEncaminhamento }) {
   return (
     <div className="flex flex-col gap-5 text-[15px]">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-3">
         <Numero rotulo="Pontuação inicial" valor={resumo.pontuacaoInicial} />
         <Numero rotulo="Pontuação atual" valor={resumo.pontuacaoAtual} />
       </div>

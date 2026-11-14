@@ -19,7 +19,7 @@ const PRINTS: Print[] = [
   { arquivo: '03-rf002-site-estressores', url: '/paciente/questionario?passo=estressores', usuario: 'fernanda', celular: true },
   { arquivo: '04-rf002-site-alerta-cvv', url: '/paciente/questionario?passo=alerta', usuario: 'fernanda', celular: true },
   { arquivo: '05-rf002-whatsapp-pergunta', url: '/whatsapp?passo=pergunta-2&lista=aberta', celular: true },
-  { arquivo: '06-rf002-whatsapp-estressores', url: '/whatsapp?passo=estressores', celular: true },
+  { arquivo: '06-rf002-whatsapp-estressores', url: '/whatsapp?passo=mais', celular: true },
   { arquivo: '07-rf002-whatsapp-alerta-cvv', url: '/whatsapp?passo=alerta', celular: true },
   { arquivo: '08-rf003-respostas-anteriores', url: '/paciente/respostas', usuario: 'fernanda', celular: true },
   { arquivo: '09-rf004-registrar-respostas', url: '/equipe/pacientes/luciana/registrar', usuario: 'juliana' },

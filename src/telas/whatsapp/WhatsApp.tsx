@@ -237,7 +237,13 @@ function Balao({
           {mensagem.separador}
         </p>
       )}
-      <div className={cn('flex max-w-[85%] flex-col gap-1', daEquipe ? 'self-start' : 'self-end')}>
+      <div
+        className={cn(
+          'flex max-w-[85%] flex-col gap-1',
+          daEquipe ? 'self-start' : 'self-end',
+          mensagem.botoes?.length && 'min-w-[240px]',
+        )}
+      >
         <div
           className={cn(
             'rounded-lg px-2.5 pt-1.5 pb-1 text-[15px] leading-snug whitespace-pre-line shadow-sm',

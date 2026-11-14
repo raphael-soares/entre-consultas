@@ -46,7 +46,7 @@ export function GraficoEvolucao({
   return (
     <figure className="flex flex-col gap-3">
       <ChartContainer config={config} className="aspect-auto h-[320px] w-full">
-        <LineChart data={pontos} margin={{ top: 12, right: 152, bottom: 4, left: -8 }}>
+        <LineChart data={pontos} margin={{ top: 12, right: 158, bottom: 4, left: -8 }}>
           {FAIXAS.map((f) => (
             <ReferenceArea
               key={f.id}
@@ -138,7 +138,7 @@ function RotuloFaixa({
   if (!viewBox) return null
   return (
     <text
-      x={viewBox.x + viewBox.width + 10}
+      x={viewBox.x + viewBox.width + 16}
       y={viewBox.y + viewBox.height / 2}
       textAnchor="start"
       dominantBaseline="middle"
