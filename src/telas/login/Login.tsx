@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { MessageCircle } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
@@ -8,7 +7,6 @@ import { INICIO_DO_PERFIL } from '@/lib/rotas'
 import { Button } from '@/componentes/ui/button'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/componentes/ui/field'
 import { Input } from '@/componentes/ui/input'
-import { UNIDADE } from '@/dados/fixtures'
 import { useStore } from '@/estado/store'
 
 const esquema = z.object({
@@ -88,11 +86,6 @@ export function Login() {
           </FieldGroup>
         </form>
       </div>
-      <p className="flex max-w-[420px] items-start gap-2 text-center text-[15px] text-muted-foreground">
-        <MessageCircle className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
-        Paciente também pode responder pela conversa no WhatsApp, sem senha.
-      </p>
-      <p className="text-[13px] text-muted-foreground">{UNIDADE} · protótipo com dados fictícios</p>
     </main>
   )
 }
