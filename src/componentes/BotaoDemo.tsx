@@ -27,7 +27,7 @@ export function BotaoDemo() {
   if (print) return null
 
   return (
-    <div className="fixed right-3 bottom-24 z-40 min-[501px]:right-auto min-[501px]:bottom-4 min-[501px]:left-4">
+    <div className="fixed right-3 bottom-24 z-40 min-[501px]:right-4 min-[501px]:bottom-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -39,7 +39,7 @@ export function BotaoDemo() {
             <span className="hidden min-[501px]:inline">Demonstração</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" side="top" className="w-64">
+        <DropdownMenuContent align="end" side="top" className="w-64">
           <DropdownMenuLabel>Entrar como</DropdownMenuLabel>
           {CONTAS_DEMO.map((u) => (
             <DropdownMenuItem

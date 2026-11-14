@@ -24,6 +24,10 @@ export const USUARIOS: Usuario[] = [
   { id: 'helena', nome: 'Dra. Helena Rocha', perfil: 'psiquiatra', funcao: 'Psiquiatra' },
 ]
 
+export function nomeDoUsuario(id: string): string {
+  return USUARIOS.find((u) => u.id === id)?.nome ?? id
+}
+
 export const CADASTROS: CadastroEsus[] = [
   { id: 'maria', nome: 'Maria Aparecida Santos', nascimento: '1979-03-14', celular: '(47) 99812-3401', escolaridade: 'Ensino fundamental completo', trabalho: 'Desempregada há 8 meses', grupoComunitario: 'Não participa' },
   { id: 'joao', nome: 'João Pedro Almeida', nascimento: '1995-07-02', celular: '(47) 99745-1180', escolaridade: 'Ensino médio completo', trabalho: 'Trabalha sem carteira assinada', grupoComunitario: 'Não participa' },
