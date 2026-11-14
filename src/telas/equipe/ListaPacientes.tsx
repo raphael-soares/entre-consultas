@@ -2,12 +2,11 @@ import { Plus, Search, Users } from 'lucide-react'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router'
 import { BadgeDestaque } from '@/componentes/BadgeDestaque'
-import { BadgeFaixa } from '@/componentes/BadgeFaixa'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { Button } from '@/componentes/ui/button'
 import { Input } from '@/componentes/ui/input'
 import { dataCurta } from '@/dominio/hoje'
-import { pontuacao } from '@/dominio/phq9'
+import { faixa, pontuacao } from '@/dominio/phq9'
 import { useListaDoResponsavel, type Ficha } from '@/estado/consultas'
 import { useUsuarioLogado } from '@/estado/store'
 import { cn } from '@/lib/utils'
@@ -74,6 +73,8 @@ export function ListaPacientes() {
 
 function ItemPaciente({ ficha }: { ficha: Ficha }) {
   const atual = ficha.ultima ? pontuacao(ficha.ultima.itens) : null
+  const f = atual !== null ? faixa(atual) : null
+  const [principal, ...outros] = ficha.destaques
   return (
     <NavLink
       to={`/equipe/pacientes/${ficha.cadastro.id}`}
@@ -84,20 +85,26 @@ function ItemPaciente({ ficha }: { ficha: Ficha }) {
       <div className="flex items-baseline justify-between gap-2">
         <span className="truncate text-[15px] font-semibold">{ficha.cadastro.nome}</span>
         {atual !== null && (
-          <span className="text-[17px] font-bold tabular-nums" aria-label={`Última pontuação ${atual}`}>
+          <span className="text-[15px] font-bold tabular-nums" aria-label={`Última pontuação ${atual}`}>
             {atual}
           </span>
         )}
       </div>
-      <div className="flex flex-wrap items-center gap-1">
-        {ficha.destaques.length === 0 && <BadgeDestaque id="em-dia" />}
-        {ficha.destaques.map((d) => (
-          <BadgeDestaque key={d} id={d} />
-        ))}
-        {ficha.encaminhamento && <BadgeDestaque id="encaminhado" />}
-        {atual !== null && <BadgeFaixa pontuacao={atual} className="text-[12px]" />}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+          <BadgeDestaque id={principal ?? 'em-dia'} />
+          {outros.map((d) => (
+            <BadgeDestaque key={d} id={d} simples />
+          ))}
+          {ficha.encaminhamento && <BadgeDestaque id="encaminhado" simples />}
+        </div>
+        {f && (
+          <span className="shrink-0 text-[12px] font-semibold whitespace-nowrap" style={{ color: f.cor }}>
+            {f.nome}
+          </span>
+        )}
       </div>
-      <p className="text-[13px] text-muted-foreground">
+      <p className="text-[12px] text-muted-foreground">
         {ficha.ultimaResposta ? `Última resposta ${dataCurta(ficha.ultimaResposta)}` : 'Sem respostas ainda'} · Próxima{' '}
         {dataCurta(ficha.prevista)}
       </p>

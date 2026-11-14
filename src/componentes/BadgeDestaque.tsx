@@ -14,10 +14,12 @@ const ESTILO: Record<DestaqueId | 'em-dia' | 'encaminhado', { icone: LucideIcon;
 export function BadgeDestaque({
   id,
   texto,
+  simples,
   className,
 }: {
   id: DestaqueId | 'em-dia' | 'encaminhado'
   texto?: string
+  simples?: boolean
   className?: string
 }) {
   const { icone: Icone, classe } = ESTILO[id]
@@ -25,8 +27,8 @@ export function BadgeDestaque({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-semibold whitespace-nowrap',
-        classe,
+        'inline-flex items-center gap-1 text-[12px] whitespace-nowrap',
+        simples ? 'font-medium text-muted-foreground' : cn('rounded-full px-2 py-0.5 font-semibold', classe),
         className,
       )}
     >
