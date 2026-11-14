@@ -14,13 +14,12 @@ import type {
 
 export const UNIDADE = 'UBS Bela Vista (fictícia)'
 export const EQUIPE = 'Equipe Azul'
-export const SENHA_DEMO = 'demo1234'
 
 export const USUARIOS: Usuario[] = [
-  { id: 'fernanda', nome: 'Fernanda Rodrigues', perfil: 'paciente', funcao: 'Paciente', cpf: '111.111.111-11', senha: SENHA_DEMO, pacienteId: 'fernanda' },
-  { id: 'juliana', nome: 'Enf. Juliana Costa', perfil: 'profissional', funcao: 'Enfermeira', cpf: '222.222.222-22', senha: SENHA_DEMO },
+  { id: 'fernanda', nome: 'Fernanda Rodrigues', perfil: 'paciente', funcao: 'Paciente', pacienteId: 'fernanda' },
+  { id: 'juliana', nome: 'Enf. Juliana Costa', perfil: 'profissional', funcao: 'Enfermeira' },
   { id: 'rafael', nome: 'Dr. Rafael Souza', perfil: 'profissional', funcao: 'Médico de família' },
-  { id: 'marcos', nome: 'Dr. Marcos Lima', perfil: 'psiquiatra', funcao: 'Psiquiatra', cpf: '333.333.333-33', senha: SENHA_DEMO },
+  { id: 'marcos', nome: 'Dr. Marcos Lima', perfil: 'psiquiatra', funcao: 'Psiquiatra' },
   { id: 'helena', nome: 'Dra. Helena Rocha', perfil: 'psiquiatra', funcao: 'Psiquiatra' },
 ]
 

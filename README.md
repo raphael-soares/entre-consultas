@@ -17,17 +17,18 @@ pnpm dev
 
 Abra o endereço que o Vite mostrar (por padrão http://localhost:5173). Tudo fica no navegador: as mudanças da demonstração são guardadas no `localStorage`, e o botão de reiniciar na barra de demonstração, no canto da tela, volta tudo ao estado inicial.
 
-## Contas de demonstração
+## Visões da demonstração
 
-O login é "Entrar com gov.br" para os três perfis. A etapa do gov.br é uma simulação do protótipo: não há integração real, e a tela seguinte pede o CPF e a senha abaixo. Senha de todas: `demo1234`.
+O botão "Entrar com gov.br" do login abre um menu para escolher quem entra; não há integração real com o gov.br nem senha.
 
-| Perfil | CPF | Abre em |
-|---|---|---|
-| Paciente (Fernanda Rodrigues) | 111.111.111-11 | `/paciente` |
-| Profissional (Enf. Juliana Costa) | 222.222.222-22 | `/equipe` |
-| Psiquiatra (Dr. Marcos Lima) | 333.333.333-33 | `/psiquiatra` |
+| Visão | Abre em |
+|---|---|
+| Ana Beatriz, paciente pelo WhatsApp | `/whatsapp` |
+| Fernanda Rodrigues, paciente pelo site | `/paciente` |
+| Enf. Juliana Costa, equipe da unidade | `/equipe` |
+| Dr. Marcos Lima, psiquiatra | `/psiquiatra` |
 
-A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede login. A barra de demonstração troca de perfil sem passar pela tela de login, com um clique ou com Alt+1 a Alt+4: as duas pacientes lado a lado (Ana no WhatsApp e Fernanda no site), depois Juliana e Marcos. A seta da barra recolhe ela.
+A barra de demonstração, no canto da tela, troca entre as mesmas visões sem voltar ao login, com um clique ou com Alt+1 a Alt+4. A seta da barra recolhe ela.
 
 ## Roteiro sugerido
 

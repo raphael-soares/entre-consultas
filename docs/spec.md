@@ -109,7 +109,7 @@ A marca oficial do gov.br aparece só no botão "Entrar com gov.br" do login.
 
 ### Login
 
-Um botão, "Entrar com gov.br", para os três perfis. A etapa do gov.br é simulada: a tela seguinte diz "Simulação do gov.br", pede CPF e senha das contas de demonstração (listadas no README) e não copia a página real do governo. O CPF identifica o perfil e abre a tela dele.
+Um botão, "Entrar com gov.br", para os três perfis. No protótipo a etapa do gov.br não existe: o botão abre um menu para escolher quem entra (Ana no WhatsApp, Fernanda no site, Juliana ou Marcos), as mesmas visões da barra de demonstração. No sistema proposto, o CPF vindo do gov.br identifica o perfil e abre a tela dele.
 
 ### Conversa do WhatsApp
 
@@ -209,7 +209,6 @@ Script Playwright (`pnpm prints`) salva em `prints/`. Título no documento: "R.F
 | Rota | Tela | Perfil |
 |---|---|---|
 | `/login` | Login com gov.br | nenhum |
-| `/login/govbr` | Simulação do gov.br | nenhum |
 | `/paciente` | Início do paciente | paciente |
 | `/paciente/questionario?passo=1..9, alerta, estressores, fim` | Questionário no site | paciente |
 | `/paciente/respostas` e `/paciente/respostas/:id` | Respostas anteriores e uma resposta | paciente |

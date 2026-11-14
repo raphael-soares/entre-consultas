@@ -51,7 +51,6 @@ interface Dados {
 interface Estado extends Dados {
   sessao: { usuarioId: string } | null
   rascunhos: Partial<Record<CanalPaciente, Rascunho>>
-  entrar: (cpf: string, senha: string) => Usuario | null
   sair: () => void
   entrarComo: (usuarioId: string) => void
   responder: (pacienteId: string, canal: Canal, resposta: RespostaNova) => void
@@ -87,8 +86,6 @@ function dadosIniciais(): Dados {
   }
 }
 
-const somenteDigitos = (texto: string) => texto.replace(/\D/g, '')
-
 export function acompanhamentoAtivo(acompanhamentos: Acompanhamento[], pacienteId: string) {
   return acompanhamentos.find((a) => a.pacienteId === pacienteId && !a.encerramento)
 }
@@ -100,13 +97,6 @@ export const useStore = create<Estado>()(
       sessao: null,
       rascunhos: {},
 
-      entrar: (cpf, senha) => {
-        const usuario = USUARIOS.find(
-          (u) => u.cpf && somenteDigitos(u.cpf) === somenteDigitos(cpf) && u.senha === senha,
-        )
-        if (usuario) set({ sessao: { usuarioId: usuario.id } })
-        return usuario ?? null
-      },
       sair: () => set({ sessao: null }),
       entrarComo: (usuarioId) => set({ sessao: { usuarioId } }),
 

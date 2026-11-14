@@ -25,8 +25,6 @@ export interface Usuario {
   nome: string
   perfil: Perfil
   funcao: string
-  cpf?: string
-  senha?: string
   pacienteId?: string
 }
 

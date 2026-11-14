@@ -9,27 +9,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/componentes/ui/dropdown-menu'
-import { USUARIOS } from '@/dados/fixtures'
 import { useStore } from '@/estado/store'
 import { useModoPrint } from '@/lib/print'
-import { INICIO_DO_PERFIL } from '@/lib/rotas'
 import { cn } from '@/lib/utils'
+import { VISOES as PARADAS, useAbrirVisao } from '@/lib/visoes'
 
 const RECOLHIDO = 'entre-consultas-demo-recolhido'
-
-type Parada = { chave: string; nome: string; papel: string; usuarioId?: string }
-
-const pessoa = (id: string, papel: string): Parada => {
-  const u = USUARIOS.find((x) => x.id === id)!
-  return { chave: id, nome: u.nome.split(' ').at(-2)!, papel, usuarioId: id }
-}
-
-const PARADAS: Parada[] = [
-  { chave: 'whatsapp', nome: 'Ana', papel: 'Paciente, WhatsApp' },
-  pessoa('fernanda', 'Paciente, site'),
-  pessoa('juliana', 'Enfermeira'),
-  pessoa('marcos', 'Psiquiatra'),
-]
 
 export function BotaoDemo() {
   const print = useModoPrint()
@@ -37,17 +22,11 @@ export function BotaoDemo() {
   const { pathname } = useLocation()
   const usuarioId = useStore((s) => s.sessao?.usuarioId)
   const reiniciar = useStore((s) => s.reiniciar)
-  const entrarComo = useStore((s) => s.entrarComo)
   const definirRascunho = useStore((s) => s.definirRascunho)
   const [recolhido, setRecolhido] = useState(() => localStorage.getItem(RECOLHIDO) === '1')
   const noWhatsApp = pathname.startsWith('/whatsapp')
 
-  const ir = (p: Parada) => {
-    if (!p.usuarioId) return navigate('/whatsapp?passo=lembrete')
-    const u = USUARIOS.find((x) => x.id === p.usuarioId)!
-    entrarComo(u.id)
-    navigate(INICIO_DO_PERFIL[u.perfil])
-  }
+  const ir = useAbrirVisao()
 
   useEffect(() => {
     const aoTeclar = (e: KeyboardEvent) => {
