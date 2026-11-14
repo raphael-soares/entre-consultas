@@ -1,9 +1,11 @@
-import { CartesianGrid, Line, LineChart, ReferenceArea, Tooltip, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceDot, Tooltip, XAxis, YAxis } from 'recharts'
 import { ChartContainer, type ChartConfig } from '@/componentes/ui/chart'
 import type { Lacuna } from '@/dominio/evolucao'
 import { dataCurta, dataLonga, paraTempo } from '@/dominio/hoje'
 import { COMO_RESPONDEU, FAIXAS, OPCOES, faixa, pontuacao } from '@/dominio/phq9'
 import type { Canal, Resposta } from '@/dominio/tipos'
+import { ESTILO_PERGUNTA9 } from '@/lib/pergunta9'
+import { LegendaPergunta9 } from './Pergunta9'
 
 interface Ponto {
   t: number
@@ -15,6 +17,8 @@ interface Ponto {
 
 const config = { pontuacao: { label: 'Pontuação', color: 'var(--primary)' } } satisfies ChartConfig
 const COR_LACUNA = '#8E8E93'
+// A faixa da pergunta 9 ocupa a parte negativa do eixo, logo acima das datas.
+const Y_PERGUNTA9 = -2.6
 
 // R.F. 007: um ponto nulo no início de cada lacuna interrompe a linha (connectNulls desligado).
 function montarPontos(respostas: Resposta[], lacunas: Lacuna[]): Ponto[] {
@@ -46,7 +50,7 @@ export function GraficoEvolucao({
   return (
     <figure className="flex flex-col gap-3">
       <ChartContainer config={config} className="aspect-auto h-[320px] w-full">
-        <LineChart data={pontos} margin={{ top: 12, right: 158, bottom: 4, left: -8 }}>
+        <LineChart data={pontos} margin={{ top: 12, right: 116, bottom: 4, left: -8 }}>
           {FAIXAS.map((f) => (
             <ReferenceArea
               key={f.id}
@@ -74,6 +78,15 @@ export function GraficoEvolucao({
               label={{ value: 'Sem resposta', position: 'insideTop', fill: '#3A3A3C', fontSize: 12, fontWeight: 600 }}
             />
           ))}
+          {respostas.map((r) => (
+            <ReferenceDot
+              key={r.id}
+              x={paraTempo(r.data)}
+              y={Y_PERGUNTA9}
+              ifOverflow="visible"
+              shape={(p: { cx?: number; cy?: number }) => <QuadradoPergunta9 cx={p.cx} cy={p.cy} valor={r.itens[8]} />}
+            />
+          ))}
           <CartesianGrid vertical={false} stroke="#00000014" />
           <XAxis
             dataKey="t"
@@ -87,7 +100,7 @@ export function GraficoEvolucao({
             axisLine={{ stroke: '#C7C7CC' }}
           />
           <YAxis
-            domain={[0, 27]}
+            domain={[-5, 27]}
             ticks={[0, 5, 10, 15, 20, 27]}
             tick={{ fill: '#3A3A3C', fontSize: 12 }}
             tickLine={false}
@@ -107,20 +120,26 @@ export function GraficoEvolucao({
           />
         </LineChart>
       </ChartContainer>
-      <figcaption className="flex flex-wrap gap-x-5 gap-y-1 text-[13px] text-muted-foreground">
-        <span className="flex items-center gap-1.5">
-          <span className="size-3 rounded-full bg-primary" aria-hidden /> Pontuação do PHQ-9 (0 a 27)
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="grid size-4 place-items-center rounded-full bg-risco text-[10px] font-bold text-white" aria-hidden>
-            !
+      <figcaption className="flex flex-col gap-1.5 text-[13px] text-muted-foreground">
+        <div className="flex flex-wrap gap-x-5 gap-y-1">
+          <span className="flex items-center gap-1.5">
+            <span className="size-3 rounded-full bg-primary" aria-hidden /> Pontuação do PHQ-9 (0 a 27)
           </span>
-          Pergunta 9 positiva
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span className="h-3 w-5 border border-dashed border-[#8E8E93] bg-[#8E8E93]/25" aria-hidden /> Período sem
-          resposta
-        </span>
+          <span className="flex items-center gap-1.5">
+            <span className="grid size-4 place-items-center rounded-full bg-risco text-[10px] font-bold text-white" aria-hidden>
+              !
+            </span>
+            Pergunta 9 positiva
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-3 w-5 border border-dashed border-[#8E8E93] bg-[#8E8E93]/25" aria-hidden /> Período sem
+            resposta
+          </span>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span className="font-medium text-foreground">Pergunta 9, acima das datas:</span>
+          <LegendaPergunta9 />
+        </div>
       </figcaption>
     </figure>
   )
@@ -136,22 +155,30 @@ function RotuloFaixa({
   cor: string
 }) {
   if (!viewBox) return null
+  const linhas = texto.length > 12 ? texto.split(' ') : [texto]
   return (
     <text
-      x={viewBox.x + viewBox.width + 16}
-      y={viewBox.y + viewBox.height / 2}
+      x={viewBox.x + viewBox.width + 14}
+      y={viewBox.y + viewBox.height / 2 - (linhas.length - 1) * 7}
       textAnchor="start"
       dominantBaseline="middle"
       fill={cor}
       fontSize={12}
       fontWeight={600}
-      stroke="#fff"
-      strokeWidth={4}
-      paintOrder="stroke"
     >
-      {texto}
+      {linhas.map((linha, i) => (
+        <tspan key={linha} x={viewBox.x + viewBox.width + 14} dy={i === 0 ? 0 : 14}>
+          {linha}
+        </tspan>
+      ))}
     </text>
   )
+}
+
+function QuadradoPergunta9({ cx, cy, valor }: { cx?: number; cy?: number; valor: number }) {
+  if (cx === undefined || cy === undefined) return null
+  const { fundo, borda } = ESTILO_PERGUNTA9[valor]
+  return <rect x={cx - 7} y={cy - 7} width={14} height={14} rx={3} fill={fundo} stroke={borda} strokeWidth={1.5} />
 }
 
 function Marcador({
