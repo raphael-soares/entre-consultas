@@ -8,7 +8,7 @@ export function LayoutPsiquiatra() {
         <Cabecalho subtitulo="Atenção especializada" />
       </div>
       <div className="has-[[data-inspetor]]:pr-[400px]">
-        <main className="mx-auto max-w-[1200px] px-8 pt-5 pb-16">
+        <main className="mx-auto max-w-[1360px] px-6 pt-5 pb-24">
           <Outlet />
         </main>
       </div>
