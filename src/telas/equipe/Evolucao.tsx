@@ -3,7 +3,7 @@ import { Link, useParams, useSearchParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
 import { CartaoLateral, ContextoPaciente } from '@/componentes/ContextoPaciente'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
-import { GraficoEvolucao } from '@/componentes/GraficoEvolucao'
+import { PainelEvolucao } from '@/componentes/PainelEvolucao'
 import { Button } from '@/componentes/ui/button'
 import {
   DropdownMenu,
@@ -109,25 +109,16 @@ export function Evolucao() {
 
       <CartaoAgora ficha={ficha} />
 
-      <div className="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-4">
-        <section className="min-w-0 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
-          <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>
-          {ficha.respostas.length ? (
-            <GraficoEvolucao
-              respostas={ficha.respostas}
-              lacunas={ficha.lacunas}
-              inicio={acompanhamento.inicio}
-              ate={HOJE}
-            />
-          ) : (
-            <p className="py-10 text-center text-muted-foreground">O gráfico aparece depois da primeira resposta.</p>
-          )}
-        </section>
-        <div className="flex flex-col gap-4">
-          <ContextoPaciente ficha={ficha} />
-          <Historico ficha={ficha} />
-        </div>
-      </div>
+      <PainelEvolucao
+        ficha={ficha}
+        ate={HOJE}
+        lateral={
+          <>
+            <ContextoPaciente ficha={ficha} />
+            <Historico ficha={ficha} />
+          </>
+        }
+      />
 
       <DialogoEncerrar aberto={dialogo === 'encerrar'} fechar={fecharDialogo} ficha={ficha} />
       <DialogoTransferir aberto={dialogo === 'transferir'} fechar={fecharDialogo} ficha={ficha} />

@@ -2,9 +2,9 @@ import { ChevronLeft, FileX } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
-import { ContextoPaciente } from '@/componentes/ContextoPaciente'
+import { ContextoSocial } from '@/componentes/ContextoPaciente'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
-import { GraficoEvolucao } from '@/componentes/GraficoEvolucao'
+import { PainelEvolucao } from '@/componentes/PainelEvolucao'
 import { Button } from '@/componentes/ui/button'
 import { CADASTROS, UNIDADE, nomeDoUsuario } from '@/dados/fixtures'
 import { HOJE, dataLonga, idade } from '@/dominio/hoje'
@@ -94,20 +94,12 @@ export function DetalheEncaminhamento() {
 
       <CartaoAgora ficha={ficha} />
 
-      <div className="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-4">
-        <section className="min-w-0 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
-          <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>
-          <GraficoEvolucao
-            respostas={ficha.respostas}
-            lacunas={ficha.lacunas}
-            inicio={ficha.acompanhamento.inicio}
-            ate={ficha.acompanhamento.encerramento?.data ?? HOJE}
-          />
-        </section>
-        <div className="flex flex-col gap-4">
-          <ContextoPaciente ficha={ficha} />
-        </div>
-      </div>
+      <PainelEvolucao
+        ficha={ficha}
+        ate={ficha.acompanhamento.encerramento?.data ?? HOJE}
+        lateral={<ContextoSocial cadastro={ficha.cadastro} emLinha />}
+        inspetor
+      />
     </div>
   )
 }

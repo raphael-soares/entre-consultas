@@ -5,10 +5,12 @@ import { dataCurta, dataLonga, paraTempo } from '@/dominio/hoje'
 import { COMO_RESPONDEU, FAIXAS, OPCOES, faixa, pontuacao } from '@/dominio/phq9'
 import type { Canal, Resposta } from '@/dominio/tipos'
 import { ESTILO_PERGUNTA9 } from '@/lib/pergunta9'
+import { cn } from '@/lib/utils'
 import { LegendaPergunta9 } from './Pergunta9'
 
 interface Ponto {
   t: number
+  id?: string
   pontuacao: number | null
   data?: string
   canal?: Canal
@@ -24,6 +26,7 @@ const Y_PERGUNTA9 = -2.6
 function montarPontos(respostas: Resposta[], lacunas: Lacuna[]): Ponto[] {
   const pontos: Ponto[] = respostas.map((r) => ({
     t: paraTempo(r.data),
+    id: r.id,
     pontuacao: pontuacao(r.itens),
     data: r.data,
     canal: r.canal,
@@ -38,19 +41,30 @@ export function GraficoEvolucao({
   lacunas,
   inicio,
   ate,
+  selecionada,
+  aoSelecionar,
 }: {
   respostas: Resposta[]
   lacunas: Lacuna[]
   inicio: string
   ate: string
+  selecionada?: string
+  aoSelecionar?: (id: string) => void
 }) {
   const pontos = montarPontos(respostas, lacunas)
   const ticks = respostas.map((r) => paraTempo(r.data))
 
   return (
     <figure className="flex flex-col gap-2">
-      <ChartContainer config={config} className="aspect-auto h-[240px] w-full">
-        <LineChart data={pontos} margin={{ top: 12, right: 116, bottom: 4, left: -8 }}>
+      <ChartContainer config={config} className={cn('aspect-auto h-[240px] w-full', aoSelecionar && 'cursor-pointer')}>
+        <LineChart
+          data={pontos}
+          margin={{ top: 12, right: 116, bottom: 4, left: -8 }}
+          onClick={(estado) => {
+            const id = pontos[Number(estado.activeTooltipIndex)]?.id
+            if (id && aoSelecionar) aoSelecionar(id)
+          }}
+        >
           {FAIXAS.map((f) => (
             <ReferenceArea
               key={f.id}
@@ -115,8 +129,10 @@ export function GraficoEvolucao({
             strokeWidth={2.5}
             connectNulls={false}
             isAnimationActive={false}
-            dot={(props) => <Marcador key={props.index} {...props} />}
-            activeDot={(props) => <Marcador key={props.index} {...props} ativo />}
+            dot={(props) => <Marcador key={props.index} {...props} selecionado={props.payload?.id === selecionada} />}
+            activeDot={(props) => (
+              <Marcador key={props.index} {...props} ativo selecionado={props.payload?.id === selecionada} />
+            )}
           />
         </LineChart>
       </ChartContainer>
@@ -186,17 +202,21 @@ function Marcador({
   cy,
   payload,
   ativo,
+  selecionado,
 }: {
   cx?: number
   cy?: number
   payload?: Ponto
   ativo?: boolean
+  selecionado?: boolean
 }) {
   if (cx === undefined || cy === undefined || payload?.pontuacao == null) return null
+  const anel = selecionado && <circle cx={cx} cy={cy} r={13} fill="none" stroke="var(--foreground)" strokeWidth={2} />
   if (payload.pergunta9) {
     const r = ativo ? 10 : 8
     return (
       <g>
+        {anel}
         <circle cx={cx} cy={cy} r={r} fill="var(--risco)" stroke="#fff" strokeWidth={2} />
         <text x={cx} y={cy + 0.5} textAnchor="middle" dominantBaseline="middle" fill="#fff" fontSize={11} fontWeight={700}>
           !
@@ -204,7 +224,12 @@ function Marcador({
       </g>
     )
   }
-  return <circle cx={cx} cy={cy} r={ativo ? 7 : 5} fill="var(--primary)" stroke="#fff" strokeWidth={2} />
+  return (
+    <g>
+      {anel}
+      <circle cx={cx} cy={cy} r={ativo ? 7 : 5} fill="var(--primary)" stroke="#fff" strokeWidth={2} />
+    </g>
+  )
 }
 
 function DetalhePonto({ active, payload }: { active?: boolean; payload?: { payload: Ponto }[] }) {

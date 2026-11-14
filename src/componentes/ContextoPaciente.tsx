@@ -23,7 +23,6 @@ export function CartaoLateral({
 
 export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | 'cadastro'> }) {
   const estressores = estressoresMaisMarcados(ficha.respostas)
-  const { escolaridade, trabalho, grupoComunitario } = ficha.cadastro
   return (
     <>
       <CartaoLateral titulo="Estressores" legenda="Nas últimas 4 respostas">
@@ -42,22 +41,29 @@ export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | '
           </ul>
         )}
       </CartaoLateral>
-      <CartaoLateral titulo="Contexto social" legenda="Do cadastro no e-SUS">
-        <dl className="flex flex-col gap-1.5">
-          {(
-            [
-              ['Escolaridade', escolaridade],
-              ['Trabalho', trabalho],
-              ['Grupo comunitário', grupoComunitario],
-            ] as const
-          ).map(([rotulo, valor]) => (
-            <div key={rotulo}>
-              <dt className="text-[12px] text-muted-foreground">{rotulo}</dt>
-              <dd>{valor}</dd>
-            </div>
-          ))}
-        </dl>
-      </CartaoLateral>
+      <ContextoSocial cadastro={ficha.cadastro} />
     </>
+  )
+}
+
+export function ContextoSocial({ cadastro, emLinha = false }: { cadastro: Ficha['cadastro']; emLinha?: boolean }) {
+  const { escolaridade, trabalho, grupoComunitario } = cadastro
+  return (
+    <CartaoLateral titulo="Contexto social" legenda="Do cadastro no e-SUS">
+      <dl className={emLinha ? 'grid grid-cols-3 gap-4' : 'flex flex-col gap-1.5'}>
+        {(
+          [
+            ['Escolaridade', escolaridade],
+            ['Trabalho', trabalho],
+            ['Grupo comunitário', grupoComunitario],
+          ] as const
+        ).map(([rotulo, valor]) => (
+          <div key={rotulo}>
+            <dt className="text-[12px] text-muted-foreground">{rotulo}</dt>
+            <dd>{valor}</dd>
+          </div>
+        ))}
+      </dl>
+    </CartaoLateral>
   )
 }

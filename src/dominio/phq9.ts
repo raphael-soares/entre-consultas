@@ -15,6 +15,18 @@ export const PERGUNTAS = [
   'Pensar em se ferir de alguma maneira ou que seria melhor estar morto(a)',
 ] as const
 
+export const PERGUNTAS_CURTAS = [
+  'Pouco interesse ou prazer',
+  'Para baixo, sem perspectiva',
+  'Problemas de sono',
+  'Cansaço ou pouca energia',
+  'Apetite',
+  'Sentir-se mal consigo',
+  'Dificuldade de concentração',
+  'Lentidão ou agitação',
+  'Pensar em se ferir',
+] as const
+
 export const OPCOES = ['Nenhuma vez', 'Vários dias', 'Mais da metade dos dias', 'Quase todos os dias'] as const
 
 export const ESTRESSORES: { id: Estressor; nome: string }[] = [
