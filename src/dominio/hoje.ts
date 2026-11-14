@@ -37,6 +37,22 @@ export function dataPorExtenso(iso: string): string {
   return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
 
+const DIA_DA_SEMANA = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', timeZone: 'UTC' })
+const DIA_E_MES = new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+
+export function dataRelativa(iso: string, hoje: string = HOJE): string {
+  const dias = diasEntre(hoje, iso)
+  if (dias === 0) return 'Hoje'
+  if (dias === -1) return 'Ontem'
+  if (dias === 1) return 'Amanhã'
+  if (Math.abs(dias) < 7) {
+    const dia = DIA_DA_SEMANA.format(paraMs(iso)).replace('-feira', '')
+    return dia.charAt(0).toUpperCase() + dia.slice(1)
+  }
+  if (iso.slice(0, 4) !== hoje.slice(0, 4)) return dataLonga(iso)
+  return DIA_E_MES.format(paraMs(iso)).replace('.', '')
+}
+
 export function idade(nascimento: string, hoje: string): number {
   const [an, mn, dn] = nascimento.split('-').map(Number)
   const [ah, mh, dh] = hoje.split('-').map(Number)

@@ -14,6 +14,7 @@ import { resumoEncaminhamento } from '@/dominio/resumo'
 import type {
   Acompanhamento,
   Canal,
+  Contrarreferencia,
   Encaminhamento,
   Estressor,
   MotivoEncerramento,
@@ -71,6 +72,9 @@ interface Estado extends Dados {
     motivo: MotivoTransferencia
     detalhe?: string
   }) => void
+  marcarVisto: (encaminhamentoId: string) => void
+  marcarConsulta: (encaminhamentoId: string, data: string) => void
+  responderEncaminhamento: (encaminhamentoId: string, resposta: Omit<Contrarreferencia, 'data'>) => void
   definirRascunho: (canal: CanalPaciente, rascunho: Rascunho | undefined) => void
   reiniciar: () => void
 }
@@ -202,6 +206,23 @@ export const useStore = create<Estado>()(
         })
       },
 
+      marcarVisto: (id) =>
+        set((s) => ({
+          encaminhamentos: s.encaminhamentos.map((e) => (e.id === id && !e.vistoEm ? { ...e, vistoEm: HOJE } : e)),
+        })),
+
+      marcarConsulta: (id, data) =>
+        set((s) => ({
+          encaminhamentos: s.encaminhamentos.map((e) => (e.id === id ? { ...e, consulta: { data, marcadaEm: HOJE } } : e)),
+        })),
+
+      responderEncaminhamento: (id, resposta) =>
+        set((s) => ({
+          encaminhamentos: s.encaminhamentos.map((e) =>
+            e.id === id ? { ...e, contrarreferencia: { data: HOJE, ...resposta } } : e,
+          ),
+        })),
+
       definirRascunho: (canal, rascunho) => set((s) => ({ rascunhos: { ...s.rascunhos, [canal]: rascunho } })),
 
       reiniciar: () => set({ ...dadosIniciais(), rascunhos: {} }),
@@ -210,7 +231,7 @@ export const useStore = create<Estado>()(
       name: CHAVE_ARMAZENAMENTO,
       storage: createJSONStorage(() => localStorage),
       // Suba a versão quando os dados da demonstração mudarem: quem já abriu recebe os novos e continua logado.
-      version: 1,
+      version: 2,
       migrate: (salvo) => ({ ...dadosIniciais(), sessao: (salvo as Partial<Estado>).sessao }),
       partialize: ({ respostas, acompanhamentos, encaminhamentos, transferencias, sessao }) => ({
         respostas,

@@ -252,41 +252,72 @@ function encaminhamento(
 }
 
 export const ENCAMINHAMENTOS: Encaminhamento[] = [
-  encaminhamento('roberto', 21, 'juliana', {
-    motivo: 'Pensamentos de se ferir há 12 semanas seguidas e pontuação sem queda depois de 17 semanas de acompanhamento.',
-    prejuizoFuncional: 'Afastado do trabalho há 3 meses. Deixou de sair de casa sozinho e de ir à igreja.',
-    tratamentos: 'Fluoxetina 20 mg por 8 semanas e depois 40 mg por 6 semanas, sem melhora. Acompanhamento com a enfermagem da unidade.',
-  }),
+  {
+    ...encaminhamento('roberto', 21, 'juliana', {
+      motivo: 'Pensamentos de se ferir há 12 semanas seguidas e pontuação sem queda depois de 17 semanas de acompanhamento.',
+      prejuizoFuncional: 'Afastado do trabalho há 3 meses. Deixou de sair de casa sozinho e de ir à igreja.',
+      tratamentos: 'Fluoxetina 20 mg por 8 semanas e depois 40 mg por 6 semanas, sem melhora. Acompanhamento com a enfermagem da unidade.',
+    }),
+    vistoEm: somarDias(HOJE, -20),
+    consulta: { data: somarDias(HOJE, -14), marcadaEm: somarDias(HOJE, -20) },
+    contrarreferencia: {
+      data: somarDias(HOJE, -14),
+      conduta:
+        'Episódio depressivo grave, sem sintomas psicóticos. Pensamentos de morte sem plano. Retorno comigo em 4 semanas; seguimento na unidade a cada 14 dias.',
+      medicacao: 'Trocar fluoxetina por venlafaxina 75 mg por 2 semanas e depois 150 mg.',
+      reencaminharSe: 'Pensamentos de se ferir em duas respostas seguidas ou pontuação acima de 20.',
+    },
+  },
   encaminhamento('tereza', 3, 'rafael', {
     motivo: 'Pontuação subindo há dois meses, chegou a grave, e pensamentos de se ferir nas três últimas respostas.',
     prejuizoFuncional: 'Parou de aceitar faxinas e passa a maior parte do dia deitada.',
     tratamentos: 'Sertralina 50 mg há 6 semanas. Escuta com a enfermagem a cada 15 dias.',
   }),
-  encaminhamento('marcelo', 9, 'rafael', {
-    motivo: 'Moderadamente grave e sem queda depois de 13 semanas de acompanhamento.',
-    prejuizoFuncional: 'Três atestados no último mês. Diz que não consegue se concentrar no trabalho.',
-    tratamentos: 'Escitalopram 10 mg por 6 semanas e 20 mg por mais 6, sem melhora.',
-  }),
-  encaminhamento('patricia', 30, 'rafael', {
-    motivo: 'Depressão pós-parto que melhorou no começo e estacionou em moderada.',
-    prejuizoFuncional: 'Cuida do bebê com ajuda da mãe. Deixou de ir ao grupo de gestantes.',
-    tratamentos: 'Sertralina 100 mg há 10 semanas, compatível com amamentação.',
-  }),
+  {
+    ...encaminhamento('marcelo', 9, 'rafael', {
+      motivo: 'Moderadamente grave e sem queda depois de 13 semanas de acompanhamento.',
+      prejuizoFuncional: 'Três atestados no último mês. Diz que não consegue se concentrar no trabalho.',
+      tratamentos: 'Escitalopram 10 mg por 6 semanas e 20 mg por mais 6, sem melhora.',
+    }),
+    vistoEm: somarDias(HOJE, -8),
+  },
+  {
+    ...encaminhamento('patricia', 30, 'rafael', {
+      motivo: 'Depressão pós-parto que melhorou no começo e estacionou em moderada.',
+      prejuizoFuncional: 'Cuida do bebê com ajuda da mãe. Deixou de ir ao grupo de gestantes.',
+      tratamentos: 'Sertralina 100 mg há 10 semanas, compatível com amamentação.',
+    }),
+    vistoEm: somarDias(HOJE, -29),
+    consulta: { data: somarDias(HOJE, 5), marcadaEm: somarDias(HOJE, -28) },
+  },
   encaminhamento('antonio', 6, 'rafael', {
     motivo: 'Luto pela esposa há 4 meses, pontuação subindo e pensamento de se ferir na última visita.',
     prejuizoFuncional: 'Não sai de casa. Os filhos levam as refeições.',
     tratamentos: 'Nenhum medicamento. Visitas domiciliares da equipe a cada três semanas.',
   }),
-  encaminhamento('rosangela', 100, 'rafael', {
-    motivo: 'Pontuação entre 18 e 20 por mais de um mês, com dois antidepressivos diferentes.',
-    prejuizoFuncional: 'Perdeu o emprego no período. Mora de favor com a irmã.',
-    tratamentos: 'Fluoxetina 20 mg por 4 semanas, sem efeito. Trocada por amitriptilina 25 mg há 3 semanas.',
-  }),
-  encaminhamento('diego', 14, 'rafael', {
-    motivo: 'Moderadamente grave há 8 semanas e pensamentos de se ferir em duas respostas.',
-    prejuizoFuncional: 'Trabalha menos horas por aplicativo e atrasou o aluguel.',
-    tratamentos: 'Fluoxetina 20 mg há 8 semanas. Encaminhado ao CRAS pela moradia.',
-  }),
+  {
+    ...encaminhamento('rosangela', 100, 'rafael', {
+      motivo: 'Pontuação entre 18 e 20 por mais de um mês, com dois antidepressivos diferentes.',
+      prejuizoFuncional: 'Perdeu o emprego no período. Mora de favor com a irmã.',
+      tratamentos: 'Fluoxetina 20 mg por 4 semanas, sem efeito. Trocada por amitriptilina 25 mg há 3 semanas.',
+    }),
+    vistoEm: somarDias(HOJE, -98),
+    consulta: { data: somarDias(HOJE, -85), marcadaEm: somarDias(HOJE, -98) },
+    contrarreferencia: {
+      data: somarDias(HOJE, -85),
+      conduta: 'Depressão moderada com boa resposta inicial. Sem necessidade de seguimento especializado agora.',
+      medicacao: 'Suspender amitriptilina. Sertralina 50 mg por 2 semanas e depois 100 mg.',
+      reencaminharSe: 'Pontuação acima de 15 em duas respostas seguidas.',
+    },
+  },
+  {
+    ...encaminhamento('diego', 14, 'rafael', {
+      motivo: 'Moderadamente grave há 8 semanas e pensamentos de se ferir em duas respostas.',
+      prejuizoFuncional: 'Trabalha menos horas por aplicativo e atrasou o aluguel.',
+      tratamentos: 'Fluoxetina 20 mg há 8 semanas. Encaminhado ao CRAS pela moradia.',
+    }),
+    vistoEm: somarDias(HOJE, -12),
+  },
 ]
 
 export const TRANSFERENCIAS: Transferencia[] = []

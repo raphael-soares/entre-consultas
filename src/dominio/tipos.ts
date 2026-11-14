@@ -69,6 +69,16 @@ export interface Encaminhamento {
   prejuizoFuncional: string
   tratamentos: string
   resumo: ResumoEncaminhamento
+  vistoEm?: string
+  consulta?: { data: string; marcadaEm: string }
+  contrarreferencia?: Contrarreferencia
+}
+
+export interface Contrarreferencia {
+  data: string
+  conduta: string
+  medicacao: string
+  reencaminharSe: string
 }
 
 export interface Transferencia {
