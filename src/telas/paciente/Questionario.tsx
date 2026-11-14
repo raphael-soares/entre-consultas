@@ -1,8 +1,7 @@
-import { Check, ChevronLeft, CircleCheck, Phone, X } from 'lucide-react'
+import { Check, ChevronLeft, CircleCheck, HeartHandshake, Phone, X } from 'lucide-react'
 import { useEffect } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router'
 import { Button } from '@/componentes/ui/button'
-import { Checkbox } from '@/componentes/ui/checkbox'
 import { Textarea } from '@/componentes/ui/textarea'
 import { CVV, ENUNCIADO, ESTRESSORES, OPCOES, PERGUNTAS } from '@/dominio/phq9'
 import type { Estressor } from '@/dominio/tipos'
@@ -135,13 +134,13 @@ function Alerta({ onContinuar }: { onContinuar: () => void }) {
     <div className="flex flex-1 flex-col">
       <BarraTopo />
       <div className="flex flex-1 flex-col gap-5 px-5 pt-4 pb-8">
-        <div className="rounded-xl border-2 border-risco bg-card p-5">
-          <span className="grid size-12 place-items-center rounded-full bg-risco text-white">
-            <Phone className="size-6" aria-hidden />
+        <div className="rounded-xl bg-card p-5 ring-1 ring-border">
+          <span className="grid size-14 place-items-center rounded-full bg-primary/10 text-primary">
+            <HeartHandshake className="size-7" aria-hidden />
           </span>
           <h1 className="mt-4 text-[24px] leading-snug font-bold tracking-tight">Você não está sozinho(a)</h1>
           <p className="mt-3 text-[17px] leading-relaxed">{CVV.texto}</p>
-          <Button asChild size="lg" className="mt-5 w-full bg-risco hover:bg-[#8C1D17]">
+          <Button asChild size="lg" className="mt-5 w-full">
             <a href="tel:188">
               <Phone aria-hidden />
               Ligar para o CVV, 188
@@ -152,7 +151,7 @@ function Alerta({ onContinuar }: { onContinuar: () => void }) {
           Sua equipe vai ver esta resposta, mas não acompanha as respostas em tempo real. Em emergência, ligue 192
           (SAMU).
         </p>
-        <Button variant="outline" size="lg" className="mt-auto w-full" onClick={onContinuar}>
+        <Button variant="ghost" size="lg" className="mt-auto w-full text-muted-foreground" onClick={onContinuar}>
           Continuar o questionário
         </Button>
       </div>
@@ -196,17 +195,17 @@ function Estressores({ rascunho, irPara }: { rascunho: Rascunho; irPara: (passo:
           {ESTRESSORES.map((e) => {
             const marcado = rascunho.estressores.includes(e.id)
             return (
-              <label
+              <button
                 key={e.id}
-                className="flex min-h-14 cursor-pointer items-center gap-3 border-b px-4 text-[17px] last:border-b-0"
+                type="button"
+                role="checkbox"
+                aria-checked={marcado}
+                onClick={() => alternar(e.id, !marcado)}
+                className="flex min-h-12 w-full items-center justify-between gap-3 border-b py-2 pr-4 pl-4 text-left text-[17px] transition-colors last:border-b-0 hover:bg-accent"
               >
-                <Checkbox
-                  checked={marcado}
-                  onCheckedChange={(v) => alternar(e.id, v === true)}
-                  className="size-6 rounded-md [&_svg]:size-4!"
-                />
                 {e.nome}
-              </label>
+                <Check className={cn('size-5 shrink-0 text-primary', !marcado && 'invisible')} strokeWidth={2.5} aria-hidden />
+              </button>
             )
           })}
         </div>
