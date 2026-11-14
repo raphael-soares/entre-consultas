@@ -1,10 +1,16 @@
-import { ArrowRightLeft, ClipboardPen, Send, TriangleAlert, UserX } from 'lucide-react'
+import { ArrowRightLeft, ClipboardPen, Ellipsis, Send, TriangleAlert, UserX } from 'lucide-react'
 import { Link, useParams, useSearchParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
 import { CartaoLateral, ContextoPaciente } from '@/componentes/ContextoPaciente'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { GraficoEvolucao } from '@/componentes/GraficoEvolucao'
 import { Button } from '@/componentes/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/componentes/ui/dropdown-menu'
 import { nomeDoUsuario } from '@/dados/fixtures'
 import { HOJE, dataCurta, dataLonga, idade } from '@/dominio/hoje'
 import { OPCOES } from '@/dominio/phq9'
@@ -38,21 +44,21 @@ export function Evolucao() {
 
   const { cadastro, acompanhamento, encaminhamento } = ficha
   return (
-    <div className="flex flex-col gap-5 px-8 pt-7 pb-24">
-      <header className="flex flex-wrap items-start justify-between gap-4">
+    <div className="flex flex-col gap-4 px-8 pt-5 pb-16">
+      <header className="flex flex-col gap-3">
         <div>
-          <h1 className="text-[34px] leading-tight font-bold tracking-tight">{cadastro.nome}</h1>
-          <p className="mt-1 text-[15px] text-muted-foreground">
-            {idade(cadastro.nascimento, HOJE)} anos · Responsável: {nomeDoUsuario(acompanhamento.responsavelId)} · Início{' '}
-            {dataLonga(acompanhamento.inicio)} · A cada {acompanhamento.periodicidade} dias
+          <h1 className="text-[28px] leading-tight font-bold tracking-tight">{cadastro.nome}</h1>
+          <p className="text-[13px] text-muted-foreground">
+            {idade(cadastro.nascimento, HOJE)} anos · Responsável: {nomeDoUsuario(acompanhamento.responsavelId)}
           </p>
-          <p className="mt-1 text-[15px]">
-            Próximo questionário em <strong>{dataLonga(ficha.prevista)}</strong>
-            <span className="text-muted-foreground">
-              {ficha.lembretes.length
-                ? ` · lembrete no WhatsApp em ${ficha.lembretes.map(dataCurta).join(' e ')}`
-                : ' · sem celular no cadastro, sem lembrete'}
-            </span>
+          <p className="mt-2 text-[14px]">
+            Desde {dataLonga(acompanhamento.inicio)}, a cada {acompanhamento.periodicidade} dias. Próximo questionário
+            em <strong>{dataLonga(ficha.prevista)}</strong>.
+          </p>
+          <p className="text-[12px] text-muted-foreground">
+            {ficha.lembretes.length
+              ? `Lembrete no WhatsApp em ${ficha.lembretes.map(dataCurta).join(' e ')}`
+              : 'Sem celular no cadastro, sem lembrete'}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -79,34 +85,45 @@ export function Evolucao() {
             <ArrowRightLeft aria-hidden />
             Transferir
           </Button>
-          <Button variant="ghost" className="text-risco hover:text-risco" onClick={() => setParams({ dialogo: 'encerrar' })}>
-            Encerrar
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon" aria-label="Mais ações">
+                <Ellipsis aria-hidden />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem
+                variant="destructive"
+                className="min-h-11 px-3 text-[15px]"
+                onSelect={() => setParams({ dialogo: 'encerrar' })}
+              >
+                <UserX aria-hidden />
+                Encerrar acompanhamento
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
       <Avisos ficha={ficha} />
 
-      <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-5">
-        <div className="flex min-w-0 flex-col gap-5">
-          <CartaoAgora ficha={ficha} />
-          <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-            <h2 className="mb-3 text-[17px] font-semibold">Evolução</h2>
-            {ficha.respostas.length ? (
-              <GraficoEvolucao
-                respostas={ficha.respostas}
-                lacunas={ficha.lacunas}
-                inicio={acompanhamento.inicio}
-                ate={HOJE}
-              />
-            ) : (
-              <p className="py-10 text-center text-muted-foreground">
-                O gráfico aparece depois da primeira resposta.
-              </p>
-            )}
-          </section>
-        </div>
-        <div className="flex flex-col gap-5">
+      <CartaoAgora ficha={ficha} />
+
+      <div className="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-4">
+        <section className="min-w-0 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
+          <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>
+          {ficha.respostas.length ? (
+            <GraficoEvolucao
+              respostas={ficha.respostas}
+              lacunas={ficha.lacunas}
+              inicio={acompanhamento.inicio}
+              ate={HOJE}
+            />
+          ) : (
+            <p className="py-10 text-center text-muted-foreground">O gráfico aparece depois da primeira resposta.</p>
+          )}
+        </section>
+        <div className="flex flex-col gap-4">
           <ContextoPaciente ficha={ficha} />
           <Historico ficha={ficha} />
         </div>
@@ -123,20 +140,20 @@ function Avisos({ ficha }: { ficha: Ficha }) {
   return (
     <>
       {destaques.includes('risco') && ultima && (
-        <div role="alert" className="flex items-start gap-3 rounded-xl bg-risco px-5 py-4 text-white">
+        <div role="alert" className="flex items-start gap-3 rounded-xl bg-risco px-5 py-3 text-white">
           <TriangleAlert className="mt-0.5 size-5 shrink-0" aria-hidden />
-          <p className="text-[15px]">
-            <strong>Risco.</strong> Na resposta de {dataLonga(ultima.data)}, a pergunta 9 (pensar em se ferir) foi
-            respondida com "{OPCOES[ultima.itens[8]].toLowerCase()}". Entre em contato com {cadastro.nome.split(' ')[0]}{' '}
-            o quanto antes.
+          <p className="text-[14px]">
+            <strong>Risco.</strong> Na resposta de {dataLonga(ultima.data)}, disse que pensou em se ferir em "
+            {OPCOES[ultima.itens[8]].toLowerCase()}" nas últimas duas semanas. Entre em contato com{' '}
+            {cadastro.nome.split(' ')[0]} o quanto antes.
           </p>
         </div>
       )}
       {destaques.includes('sugere-encaminhamento') && (
-        <div className="flex items-center justify-between gap-4 rounded-xl bg-accent px-5 py-4 text-accent-foreground">
-          <p className="text-[15px]">
-            <strong>Sugere encaminhamento.</strong> Depois de 16 semanas a pontuação não caiu 5 pontos, ou a pergunta 9
-            segue positiva há 12 semanas. Quem decide é você.
+        <div className="flex items-center justify-between gap-4 rounded-xl bg-accent px-5 py-3 text-accent-foreground">
+          <p className="text-[14px]">
+            <strong>Sugere encaminhamento.</strong> Depois de 16 semanas a pontuação não caiu 5 pontos, ou os
+            pensamentos de se ferir aparecem há 12 semanas. Quem decide é você.
           </p>
           <Button asChild size="sm">
             <Link to="encaminhar">Encaminhar</Link>
@@ -144,7 +161,7 @@ function Avisos({ ficha }: { ficha: Ficha }) {
         </div>
       )}
       {encaminhamento && (
-        <div className="flex items-center gap-3 rounded-xl bg-card px-5 py-4 text-[15px] ring-1 ring-border">
+        <div className="flex items-center gap-3 rounded-xl bg-card px-5 py-3 text-[14px] ring-1 ring-border">
           <Send className="size-5 text-primary" aria-hidden />
           Encaminhado a {nomeDoUsuario(encaminhamento.psiquiatraId)} em {dataLonga(encaminhamento.data)}.
         </div>
@@ -158,17 +175,17 @@ function Historico({ ficha }: { ficha: Ficha }) {
   const registradas = respostas.filter((r) => r.registradoPor)
   return (
     <CartaoLateral titulo="Histórico">
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-2.5">
         <li>
           <p>Acompanhamento aberto</p>
-          <p className="text-[13px] text-muted-foreground">{dataLonga(acompanhamento.inicio)}</p>
+          <p className="text-[12px] text-muted-foreground">{dataLonga(acompanhamento.inicio)}</p>
         </li>
         {registradas.length > 0 && (
           <li>
             <p>
               {registradas.length} {registradas.length === 1 ? 'resposta registrada' : 'respostas registradas'} pela equipe
             </p>
-            <p className="text-[13px] text-muted-foreground">
+            <p className="text-[12px] text-muted-foreground">
               Última por {nomeDoUsuario(registradas.at(-1)!.registradoPor!)}
             </p>
           </li>
@@ -176,7 +193,7 @@ function Historico({ ficha }: { ficha: Ficha }) {
         {encaminhamento && (
           <li>
             <p>Encaminhado a {nomeDoUsuario(encaminhamento.psiquiatraId)}</p>
-            <p className="text-[13px] text-muted-foreground">
+            <p className="text-[12px] text-muted-foreground">
               {dataLonga(encaminhamento.data)}, por {nomeDoUsuario(encaminhamento.profissionalId)}
             </p>
           </li>
@@ -187,7 +204,7 @@ function Historico({ ficha }: { ficha: Ficha }) {
               {t.tipo === 'acompanhamento' ? 'Acompanhamento transferido' : 'Encaminhamento redirecionado'} de{' '}
               {nomeDoUsuario(t.deId)} para {nomeDoUsuario(t.paraId)}
             </p>
-            <p className="text-[13px] text-muted-foreground">
+            <p className="text-[12px] text-muted-foreground">
               {dataLonga(t.data)}, por {nomeDoUsuario(t.porId)}. Motivo: {MOTIVOS_TRANSFERENCIA[t.motivo].toLowerCase()}
               {t.detalhe ? ` (${t.detalhe})` : ''}
             </p>

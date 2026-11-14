@@ -14,9 +14,9 @@ function Quadrado({ valor, className }: { valor: number; className?: string }) {
   )
 }
 
-export function LegendaPergunta9({ className }: { className?: string }) {
+export function LegendaPergunta9() {
   return (
-    <ul className={cn('flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-muted-foreground', className)}>
+    <ul className="flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-muted-foreground">
       {OPCOES.map((opcao, valor) => (
         <li key={opcao} className="flex items-center gap-1.5">
           <Quadrado valor={valor} />

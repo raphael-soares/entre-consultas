@@ -2,7 +2,7 @@ import { ChevronLeft, FileX } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
-import { CartaoLateral, ContextoPaciente } from '@/componentes/ContextoPaciente'
+import { ContextoPaciente } from '@/componentes/ContextoPaciente'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { GraficoEvolucao } from '@/componentes/GraficoEvolucao'
 import { Button } from '@/componentes/ui/button'
@@ -54,31 +54,49 @@ export function DetalheEncaminhamento() {
   const encerrado = !!ficha.acompanhamento.encerramento
 
   return (
-    <div className="flex flex-col gap-5">
-      {VOLTAR}
-      <header>
-        <h1 className="text-[34px] leading-tight font-bold tracking-tight">{cadastro.nome}</h1>
-        <p className="mt-1 text-[15px] text-muted-foreground">
-          {idade(cadastro.nascimento, HOJE)} anos · {UNIDADE} · encaminhado por{' '}
-          {nomeDoUsuario(encaminhamento.profissionalId)} em {dataLonga(encaminhamento.data)}
-        </p>
-        {encerrado && (
-          <p className="mt-2 text-[15px] font-medium">
-            O acompanhamento na unidade foi encerrado em {dataLonga(ficha.acompanhamento.encerramento!.data)}.
+    <div className="flex flex-col gap-4">
+      <header className="flex items-start gap-1">
+        <Button asChild variant="ghost" size="icon" className="-ml-3">
+          <Link to="/psiquiatra" aria-label="Voltar para encaminhamentos recebidos">
+            <ChevronLeft className="size-6" aria-hidden />
+          </Link>
+        </Button>
+        <div>
+          <h1 className="text-[28px] leading-tight font-bold tracking-tight">{cadastro.nome}</h1>
+          <p className="text-[13px] text-muted-foreground">
+            {idade(cadastro.nascimento, HOJE)} anos · {UNIDADE} · encaminhado por{' '}
+            {nomeDoUsuario(encaminhamento.profissionalId)} em {dataLonga(encaminhamento.data)}
           </p>
-        )}
+          {encerrado && (
+            <p className="mt-1 text-[13px] font-medium">
+              O acompanhamento na unidade foi encerrado em {dataLonga(ficha.acompanhamento.encerramento!.data)}.
+            </p>
+          )}
+        </div>
       </header>
 
-      <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-        <h2 className="text-[17px] font-semibold">Motivo do encaminhamento</h2>
-        <p className="mt-1 text-[17px] leading-relaxed">{encaminhamento.motivo}</p>
+      <section aria-label="Encaminhamento" className="rounded-xl bg-card px-5 py-4 ring-1 ring-border">
+        <dl className="grid grid-cols-3 gap-6 text-[14px] leading-snug">
+          {(
+            [
+              ['Motivo do encaminhamento', encaminhamento.motivo],
+              ['Prejuízo funcional', encaminhamento.prejuizoFuncional],
+              ['Tratamentos já feitos', encaminhamento.tratamentos],
+            ] as const
+          ).map(([rotulo, texto]) => (
+            <div key={rotulo} className="flex flex-col gap-0.5">
+              <dt className="text-[12px] font-medium text-muted-foreground">{rotulo}</dt>
+              <dd>{texto}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <CartaoAgora ficha={ficha} />
 
-      <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
-        <section className="min-w-0 rounded-xl bg-card p-5 ring-1 ring-border">
-          <h2 className="mb-3 text-[17px] font-semibold">Evolução</h2>
+      <div className="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-4">
+        <section className="min-w-0 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
+          <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>
           <GraficoEvolucao
             respostas={ficha.respostas}
             lacunas={ficha.lacunas}
@@ -86,22 +104,7 @@ export function DetalheEncaminhamento() {
             ate={ficha.acompanhamento.encerramento?.data ?? HOJE}
           />
         </section>
-        <div className="flex flex-col gap-5">
-          <CartaoLateral titulo="Encaminhamento">
-            <dl className="flex flex-col gap-3">
-              {(
-                [
-                  ['Prejuízo funcional', encaminhamento.prejuizoFuncional],
-                  ['Tratamentos já feitos', encaminhamento.tratamentos],
-                ] as const
-              ).map(([rotulo, texto]) => (
-                <div key={rotulo}>
-                  <dt className="text-[13px] text-muted-foreground">{rotulo}</dt>
-                  <dd>{texto}</dd>
-                </div>
-              ))}
-            </dl>
-          </CartaoLateral>
+        <div className="flex flex-col gap-4">
           <ContextoPaciente ficha={ficha} />
         </div>
       </div>

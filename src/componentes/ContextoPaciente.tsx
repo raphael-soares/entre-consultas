@@ -13,10 +13,10 @@ export function CartaoLateral({
   children: ReactNode
 }) {
   return (
-    <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-      <h2 className="text-[17px] font-semibold">{titulo}</h2>
-      {legenda && <p className="text-[13px] text-muted-foreground">{legenda}</p>}
-      <div className="mt-3 text-[15px]">{children}</div>
+    <section className="rounded-xl bg-card px-5 py-4 ring-1 ring-border">
+      <h2 className="text-[15px] font-semibold">{titulo}</h2>
+      {legenda && <p className="text-[12px] text-muted-foreground">{legenda}</p>}
+      <div className="mt-2.5 text-[14px]">{children}</div>
     </section>
   )
 }
@@ -30,11 +30,11 @@ export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | '
         {estressores.length === 0 ? (
           <p className="text-muted-foreground">Nenhum marcado</p>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-1.5">
             {estressores.map((e) => (
               <li key={e.estressor} className="flex items-center justify-between gap-3">
                 <span>{nomeEstressor(e.estressor)}</span>
-                <span className="text-[13px] text-muted-foreground tabular-nums">
+                <span className="text-[12px] text-muted-foreground tabular-nums">
                   {e.vezes} {e.vezes === 1 ? 'vez' : 'vezes'}
                 </span>
               </li>
@@ -43,7 +43,7 @@ export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | '
         )}
       </CartaoLateral>
       <CartaoLateral titulo="Contexto social" legenda="Do cadastro no e-SUS">
-        <dl className="flex flex-col gap-2">
+        <dl className="flex flex-col gap-1.5">
           {(
             [
               ['Escolaridade', escolaridade],
@@ -52,7 +52,7 @@ export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | '
             ] as const
           ).map(([rotulo, valor]) => (
             <div key={rotulo}>
-              <dt className="text-[13px] text-muted-foreground">{rotulo}</dt>
+              <dt className="text-[12px] text-muted-foreground">{rotulo}</dt>
               <dd>{valor}</dd>
             </div>
           ))}

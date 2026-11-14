@@ -48,8 +48,8 @@ export function GraficoEvolucao({
   const ticks = respostas.map((r) => paraTempo(r.data))
 
   return (
-    <figure className="flex flex-col gap-3">
-      <ChartContainer config={config} className="aspect-auto h-[320px] w-full">
+    <figure className="flex flex-col gap-2">
+      <ChartContainer config={config} className="aspect-auto h-[240px] w-full">
         <LineChart data={pontos} margin={{ top: 12, right: 116, bottom: 4, left: -8 }}>
           {FAIXAS.map((f) => (
             <ReferenceArea
@@ -120,8 +120,8 @@ export function GraficoEvolucao({
           />
         </LineChart>
       </ChartContainer>
-      <figcaption className="flex flex-col gap-1.5 text-[13px] text-muted-foreground">
-        <div className="flex flex-wrap gap-x-5 gap-y-1">
+      <figcaption className="flex flex-col gap-1 text-[12px] text-muted-foreground">
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
           <span className="flex items-center gap-1.5">
             <span className="size-3 rounded-full bg-primary" aria-hidden /> Pontuação do PHQ-9 (0 a 27)
           </span>
@@ -129,15 +129,15 @@ export function GraficoEvolucao({
             <span className="grid size-4 place-items-center rounded-full bg-risco text-[10px] font-bold text-white" aria-hidden>
               !
             </span>
-            Pergunta 9 positiva
+            Pensou em se ferir
           </span>
           <span className="flex items-center gap-1.5">
             <span className="h-3 w-5 border border-dashed border-[#8E8E93] bg-[#8E8E93]/25" aria-hidden /> Período sem
             resposta
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span className="font-medium text-foreground">Pergunta 9, acima das datas:</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="font-medium text-foreground">Pensou em se ferir, por resposta:</span>
           <LegendaPergunta9 />
         </div>
       </figcaption>
@@ -222,7 +222,7 @@ function DetalhePonto({ active, payload }: { active?: boolean; payload?: { paylo
       </p>
       <p className="text-muted-foreground">{COMO_RESPONDEU[ponto.canal]}</p>
       {ponto.pergunta9 ? (
-        <p className="font-semibold text-risco">Pergunta 9: {OPCOES[ponto.pergunta9].toLowerCase()}</p>
+        <p className="font-semibold text-risco">Pensou em se ferir: {OPCOES[ponto.pergunta9].toLowerCase()}</p>
       ) : null}
     </div>
   )
