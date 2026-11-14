@@ -209,6 +209,9 @@ export const useStore = create<Estado>()(
     {
       name: CHAVE_ARMAZENAMENTO,
       storage: createJSONStorage(() => localStorage),
+      // Suba a versão quando os dados da demonstração mudarem: quem já abriu recebe os novos e continua logado.
+      version: 1,
+      migrate: (salvo) => ({ ...dadosIniciais(), sessao: (salvo as Partial<Estado>).sessao }),
       partialize: ({ respostas, acompanhamentos, encaminhamentos, transferencias, sessao }) => ({
         respostas,
         acompanhamentos,

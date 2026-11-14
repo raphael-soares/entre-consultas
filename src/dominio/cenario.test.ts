@@ -8,7 +8,7 @@ import type { Resposta } from './tipos'
 
 function lista(respostas: Resposta[]) {
   return ordenarLista(
-    ACOMPANHAMENTOS.map((acompanhamento) => {
+    ACOMPANHAMENTOS.filter((a) => a.responsavelId === 'juliana').map((acompanhamento) => {
       const doPaciente = respostasDoAcompanhamento(acompanhamento, respostas)
       const encaminhado = ENCAMINHAMENTOS.some((e) => e.pacienteId === acompanhamento.pacienteId)
       return {

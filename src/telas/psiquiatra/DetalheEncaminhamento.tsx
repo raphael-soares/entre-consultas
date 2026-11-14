@@ -8,8 +8,8 @@ import { PainelEvolucao } from '@/componentes/PainelEvolucao'
 import { Button } from '@/componentes/ui/button'
 import { CADASTROS, UNIDADE, nomeDoUsuario } from '@/dados/fixtures'
 import { HOJE, dataLonga, idade } from '@/dominio/hoje'
-import { montarFicha, useDados } from '@/estado/consultas'
-import { acompanhamentoAtivo, useUsuarioLogado } from '@/estado/store'
+import { fichaDoEncaminhamento, useDados } from '@/estado/consultas'
+import { useUsuarioLogado } from '@/estado/store'
 
 const VOLTAR = (
   <Button asChild variant="ghost" className="self-start px-2">
@@ -26,15 +26,7 @@ export function DetalheEncaminhamento() {
   const dados = useDados()
   const encaminhamento = dados.encaminhamentos.find((e) => e.id === id && e.psiquiatraId === usuario.id)
 
-  // Encerrado o acompanhamento, vale o que estava aberto na data do encaminhamento.
-  const ficha = useMemo(() => {
-    if (!encaminhamento) return null
-    const { pacienteId, data } = encaminhamento
-    const acomp =
-      acompanhamentoAtivo(dados.acompanhamentos, pacienteId) ??
-      dados.acompanhamentos.filter((a) => a.pacienteId === pacienteId && a.inicio <= data).at(-1)
-    return montarFicha(dados, pacienteId, acomp)
-  }, [dados, encaminhamento])
+  const ficha = useMemo(() => (encaminhamento ? fichaDoEncaminhamento(dados, encaminhamento) : null), [dados, encaminhamento])
 
   if (!encaminhamento || !ficha) {
     return (

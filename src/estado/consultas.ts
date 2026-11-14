@@ -11,6 +11,8 @@ import {
   type RespostaTratamento,
 } from '@/dominio/evolucao'
 import { HOJE } from '@/dominio/hoje'
+import { pontuacao } from '@/dominio/phq9'
+import { ordenarPorPrioridade } from '@/dominio/prioridade'
 import type {
   Acompanhamento,
   CadastroEsus,
@@ -92,13 +94,33 @@ export function useListaDoResponsavel(responsavelId: string | undefined): Ficha[
   }, [dados, responsavelId])
 }
 
-export function useEncaminhamentosDe(psiquiatraId: string | undefined): Encaminhamento[] {
+// Encerrado o acompanhamento, vale o que estava aberto na data do encaminhamento.
+export function fichaDoEncaminhamento(dados: Dados, encaminhamento: Encaminhamento): Ficha | null {
+  const { pacienteId, data } = encaminhamento
+  const acomp =
+    acompanhamentoAtivo(dados.acompanhamentos, pacienteId) ??
+    dados.acompanhamentos.filter((a) => a.pacienteId === pacienteId && a.inicio <= data).at(-1)
+  return montarFicha(dados, pacienteId, acomp)
+}
+
+export interface CasoEncaminhado {
+  encaminhamento: Encaminhamento
+  ficha: Ficha
+}
+
+export function useEncaminhamentosDe(psiquiatraId: string | undefined): CasoEncaminhado[] {
   const dados = useDados()
-  return useMemo(
-    () =>
-      dados.encaminhamentos
-        .filter((e) => e.psiquiatraId === psiquiatraId)
-        .sort((a, b) => b.data.localeCompare(a.data)),
-    [dados, psiquiatraId],
-  )
+  return useMemo(() => {
+    const casos = dados.encaminhamentos
+      .filter((e) => e.psiquiatraId === psiquiatraId)
+      .map((encaminhamento) => ({ encaminhamento, ficha: fichaDoEncaminhamento(dados, encaminhamento) }))
+      .filter((c): c is CasoEncaminhado => c.ficha !== null)
+      .map((caso) => ({
+        ...caso,
+        pensamentosNaUltima: (caso.ficha.ultima?.itens[8] ?? 0) > 0,
+        pontuacao: caso.ficha.ultima ? pontuacao(caso.ficha.ultima.itens) : null,
+        encaminhadoEm: caso.encaminhamento.data,
+      }))
+    return ordenarPorPrioridade(casos)
+  }, [dados, psiquiatraId])
 }
