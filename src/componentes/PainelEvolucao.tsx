@@ -98,7 +98,7 @@ function InspetorResposta({
     <aside
       data-inspetor
       aria-label="Respostas do questionário"
-      className="fixed top-16 right-0 bottom-0 z-30 flex w-[400px] flex-col border-l bg-card"
+      className="fixed top-12 right-0 bottom-0 z-30 flex w-[400px] flex-col border-l bg-card"
     >
       <div className="flex items-center gap-1 border-b px-2 py-1">
         <Button variant="ghost" size="icon" aria-label="Resposta anterior" disabled={indice === 0} onClick={() => irPara(indice - 1)}>
