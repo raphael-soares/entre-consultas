@@ -19,12 +19,16 @@ const RECOLHIDO = 'entre-consultas-demo-recolhido'
 
 type Parada = { chave: string; nome: string; papel: string; usuarioId?: string }
 
+const pessoa = (id: string, papel: string): Parada => {
+  const u = USUARIOS.find((x) => x.id === id)!
+  return { chave: id, nome: u.nome.split(' ').at(-2)!, papel, usuarioId: id }
+}
+
 const PARADAS: Parada[] = [
-  { chave: 'whatsapp', nome: 'Ana', papel: 'WhatsApp' },
-  ...['juliana', 'marcos', 'fernanda'].map((id) => {
-    const u = USUARIOS.find((x) => x.id === id)!
-    return { chave: id, nome: u.nome.split(' ').at(-2)!, papel: u.funcao, usuarioId: id }
-  }),
+  { chave: 'whatsapp', nome: 'Ana', papel: 'Paciente, WhatsApp' },
+  pessoa('fernanda', 'Paciente, site'),
+  pessoa('juliana', 'Enfermeira'),
+  pessoa('marcos', 'Psiquiatra'),
 ]
 
 export function BotaoDemo() {

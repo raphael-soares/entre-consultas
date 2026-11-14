@@ -27,7 +27,7 @@ O login é "Entrar com gov.br" para os três perfis. A etapa do gov.br é uma si
 | Profissional (Enf. Juliana Costa) | 222.222.222-22 | `/equipe` |
 | Psiquiatra (Dr. Marcos Lima) | 333.333.333-33 | `/psiquiatra` |
 
-A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede login. A barra de demonstração troca de perfil sem passar pela tela de login, na ordem do roteiro: Ana no WhatsApp, Juliana, Marcos e Fernanda, com um clique ou com Alt+1 a Alt+4. A seta da barra recolhe ela.
+A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede login. A barra de demonstração troca de perfil sem passar pela tela de login, com um clique ou com Alt+1 a Alt+4: as duas pacientes lado a lado (Ana no WhatsApp e Fernanda no site), depois Juliana e Marcos. A seta da barra recolhe ela.
 
 ## Roteiro sugerido
 
