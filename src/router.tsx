@@ -1,8 +1,33 @@
 import { createBrowserRouter } from 'react-router'
+import { Inicio, Protegida } from '@/componentes/Protegida'
+import { Raiz } from '@/componentes/Raiz'
+import { Login } from '@/telas/login/Login'
+import { InicioPaciente } from '@/telas/paciente/InicioPaciente'
+import { LayoutPaciente } from '@/telas/paciente/LayoutPaciente'
+import { Questionario } from '@/telas/paciente/Questionario'
+import { Respostas } from '@/telas/paciente/Respostas'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <main className="min-h-svh p-10 text-[34px] font-bold">Entre Consultas</main>,
+    element: <Raiz />,
+    children: [
+      { index: true, element: <Inicio /> },
+      { path: 'login', element: <Login /> },
+      {
+        path: 'paciente',
+        element: <Protegida perfil="paciente" />,
+        children: [
+          {
+            element: <LayoutPaciente />,
+            children: [
+              { index: true, element: <InicioPaciente /> },
+              { path: 'questionario', element: <Questionario /> },
+              { path: 'respostas', element: <Respostas /> },
+            ],
+          },
+        ],
+      },
+      { path: '*', element: <Inicio /> },
+    ],
   },
 ])

@@ -38,6 +38,13 @@ export const CANAIS: Record<Canal, string> = {
   visita: 'Visita domiciliar',
 }
 
+export const COMO_RESPONDEU: Record<Canal, string> = {
+  whatsapp: 'Pelo WhatsApp',
+  site: 'Pelo site',
+  unidade: 'Registrada na unidade',
+  visita: 'Registrada em visita domiciliar',
+}
+
 export const CVV = {
   telefone: '188',
   texto: 'Se você está pensando em se ferir, ligue para o CVV no 188. A ligação é gratuita e o atendimento funciona 24 horas.',
