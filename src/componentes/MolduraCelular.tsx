@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 
 const ESTILOS = {
   padrao: { status: 'bg-background text-foreground', base: 'bg-background', indicador: 'bg-foreground' },
-  whatsapp: { status: 'bg-whatsapp-topo text-white', base: 'bg-[#f0f2f5]', indicador: 'bg-foreground' },
+  whatsapp: { status: 'bg-whatsapp-topo text-white', base: 'bg-whatsapp-fundo', indicador: 'bg-foreground' },
 }
 
 // Acima de 500 px a tela do paciente aparece dentro de um celular; abaixo disso é o próprio celular.

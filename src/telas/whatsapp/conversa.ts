@@ -1,6 +1,12 @@
-import { dataLonga } from '@/dominio/hoje'
 import { CVV, ENUNCIADO, OPCOES, PERGUNTAS, nomeEstressor } from '@/dominio/phq9'
 import type { Rascunho } from '@/estado/store'
+
+const DATA_DO_SEPARADOR = new Intl.DateTimeFormat('pt-BR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+})
 
 export type Passo = 'lembrete' | `pergunta-${number}` | 'alerta' | 'estressores' | 'outro' | 'mais' | 'fim'
 
@@ -9,7 +15,6 @@ export interface Mensagem {
   texto: string
   hora: string
   separador?: string
-  alerta?: boolean
   botoes?: string[]
   lista?: string
 }
@@ -39,7 +44,7 @@ export function montarConversa(
     de: 'equipe',
     texto: l.texto,
     hora: '09:00',
-    separador: dataLonga(l.data),
+    separador: DATA_DO_SEPARADOR.format(new Date(`${l.data}T00:00:00Z`)),
     botoes: BOTOES_LEMBRETE,
   }))
   if (passo === 'lembrete' || !rascunho) return mensagens
@@ -62,7 +67,6 @@ export function montarConversa(
   if (rascunho.itens[8]! > 0) {
     enviar({
       de: 'equipe',
-      alerta: true,
       texto: `${CVV.texto}\n\nSua equipe vai ver esta resposta, mas não acompanha as mensagens em tempo real. Em emergência, ligue 192 (SAMU).`,
       botoes: BOTOES_ALERTA,
     })

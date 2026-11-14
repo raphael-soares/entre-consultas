@@ -1,8 +1,23 @@
-import { ArrowLeft, Check, CheckCheck, HeartHandshake, List, Phone, RotateCcw, SendHorizontal, X } from 'lucide-react'
+import {
+  ArrowLeft,
+  Camera,
+  Check,
+  CheckCheck,
+  EllipsisVertical,
+  HeartHandshake,
+  List,
+  Lock,
+  Mic,
+  Paperclip,
+  Phone,
+  SendHorizontal,
+  Smile,
+  Video,
+  X,
+} from 'lucide-react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useSearchParams } from 'react-router'
 import { MolduraCelular } from '@/componentes/MolduraCelular'
-import { Button } from '@/componentes/ui/button'
 import { ACOMPANHAMENTOS, CADASTROS, EQUIPE, UNIDADE } from '@/dados/fixtures'
 import { lembretes } from '@/dominio/agenda'
 import { HOJE } from '@/dominio/hoje'
@@ -11,6 +26,7 @@ import type { Estressor } from '@/dominio/tipos'
 import { primeiraEmBranco, rascunhoDeExemplo, rascunhoVazio } from '@/estado/rascunho'
 import { useStore, type Rascunho } from '@/estado/store'
 import { cn } from '@/lib/utils'
+import fundoWhatsApp from '@/assets/whatsapp-fundo.svg'
 import {
   BOTOES_ALERTA,
   BOTOES_LEMBRETE,
@@ -138,45 +154,38 @@ export function WhatsApp() {
         ...(rascunho?.estressores.length ? [] : [{ valor: NENHUMA, rotulo: 'Nenhuma delas' }]),
       ]
 
-  const reiniciar = () => {
-    definirRascunho('whatsapp', undefined)
-    irPara('lembrete')
-  }
-
   return (
-    <MolduraCelular
-      estilo="whatsapp"
-      legenda="WhatsApp da paciente Ana Beatriz, sem login"
-      lado={
-        <div className="flex flex-col gap-3 text-[15px] text-palco-foreground">
-          <p>
-            Conversa simulada. A paciente recebe o lembrete no dia previsto e responde as mesmas perguntas do site, uma
-            por mensagem.
-          </p>
-          <Button variant="outline" onClick={reiniciar} className="self-start">
-            <RotateCcw aria-hidden />
-            Reiniciar conversa
-          </Button>
-        </div>
-      }
-    >
-      <div className="relative flex min-h-0 flex-1 flex-col bg-whatsapp-fundo">
-        <header className="flex items-center gap-3 bg-whatsapp-topo px-3 pt-1 pb-2.5 text-white">
-          <ArrowLeft className="size-6" aria-hidden />
-          <span className="grid size-10 place-items-center rounded-full bg-white">
+    <MolduraCelular estilo="whatsapp" legenda="WhatsApp da paciente Ana Beatriz">
+      <div
+        className="relative flex min-h-0 flex-1 flex-col bg-whatsapp-fundo"
+        style={{ backgroundImage: `url("${fundoWhatsApp}")` }}
+      >
+        <header className="flex items-center gap-2 bg-whatsapp-topo py-1.5 pr-1 pl-2 text-white">
+          <ArrowLeft className="size-6 shrink-0" aria-hidden />
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white">
             <HeartHandshake className="size-6 text-primary" aria-hidden />
           </span>
-          <div className="leading-tight">
-            <p className="text-[17px] font-semibold">Entre Consultas</p>
-            <p className="text-[13px]">{UNIDADE}</p>
+          <div className="min-w-0 flex-1 pl-1 leading-tight">
+            <p className="truncate text-[17px] font-semibold">Entre Consultas</p>
+            <p className="truncate text-[13px] text-white/85">Conta comercial</p>
           </div>
+          <span aria-hidden className="flex items-center">
+            <Video className="m-2.5 size-[22px]" />
+            <Phone className="m-2.5 size-5" />
+            <EllipsisVertical className="m-2 size-5" />
+          </span>
         </header>
 
-        <div ref={rolagem} className="flex flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-3" aria-live="polite">
+        <div ref={rolagem} className="flex flex-1 flex-col overflow-y-auto px-3 pt-2 pb-3" aria-live="polite">
+          <p className="mx-auto mb-1 flex max-w-[92%] gap-1.5 rounded-lg bg-[#ffeecd] px-3 py-1.5 text-center text-[12.5px] leading-snug text-[#54656f]">
+            <Lock className="mt-0.5 size-3 shrink-0" aria-hidden />
+            Esta empresa usa um serviço seguro da Meta para gerenciar esta conversa.
+          </p>
           {mensagens.map((m, i) => (
             <Balao
               key={i}
               mensagem={m}
+              inicio={i === 0 || !!m.separador || mensagens[i - 1].de !== m.de}
               ativa={i === mensagens.length - 1 && passo !== 'fim'}
               aoTocar={tocarBotao}
               aoAbrirLista={() => irPara(passo, true)}
@@ -184,24 +193,33 @@ export function WhatsApp() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 bg-[#f0f2f5] px-2 py-2">
-          <input
-            aria-label="Mensagem"
-            disabled={passo !== 'outro'}
-            value={textoOutro}
-            onChange={(e) => setTextoOutro(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && enviarOutro()}
-            placeholder={passo === 'outro' ? 'Escreva a situação' : 'Mensagem'}
-            className="h-11 flex-1 rounded-full bg-white px-4 text-[15px] outline-none placeholder:text-[#54656f] disabled:opacity-100"
-          />
+        <div className="flex items-end gap-1.5 px-1.5 pb-1.5">
+          <div className="flex h-12 min-w-0 flex-1 items-center gap-1 rounded-full bg-white pr-1 pl-3 shadow-sm">
+            <Smile className="size-6 shrink-0 text-[#54656f]" aria-hidden />
+            <input
+              aria-label="Mensagem"
+              disabled={passo !== 'outro'}
+              value={textoOutro}
+              onChange={(e) => setTextoOutro(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && enviarOutro()}
+              placeholder={passo === 'outro' ? 'Escreva a situação' : 'Mensagem'}
+              className="h-full min-w-0 flex-1 bg-transparent px-1.5 text-[16px] outline-none placeholder:text-[#54656f] disabled:opacity-100"
+            />
+            <Paperclip className="m-2 size-[22px] shrink-0 -rotate-45 text-[#54656f]" aria-hidden />
+            {!textoOutro && <Camera className="m-2 size-[22px] shrink-0 text-[#54656f]" aria-hidden />}
+          </div>
           <button
             type="button"
             aria-label="Enviar mensagem"
             disabled={passo !== 'outro' || !textoOutro.trim()}
             onClick={enviarOutro}
-            className="grid size-11 place-items-center rounded-full bg-whatsapp-topo text-white disabled:opacity-60"
+            className="grid size-12 shrink-0 place-items-center rounded-full bg-[#00a884] text-white shadow-sm"
           >
-            <SendHorizontal className="size-5" aria-hidden />
+            {textoOutro.trim() ? (
+              <SendHorizontal className="size-5" aria-hidden />
+            ) : (
+              <Mic className="size-[22px]" aria-hidden />
+            )}
           </button>
         </div>
 
@@ -218,13 +236,21 @@ export function WhatsApp() {
   )
 }
 
+// Ponta do balão; a sombra vem de drop-shadow para contornar balão e ponta juntos.
+const PONTA = {
+  equipe: 'M8 0H1.6C.4 0-.2 1.3.6 2.2L8 11z',
+  paciente: 'M0 0h6.4c1.2 0 1.8 1.3 1 2.2L0 11z',
+}
+
 function Balao({
   mensagem,
+  inicio,
   ativa,
   aoTocar,
   aoAbrirLista,
 }: {
   mensagem: Mensagem
+  inicio: boolean
   ativa: boolean
   aoTocar: (rotulo: string) => void
   aoAbrirLista: () => void
@@ -233,28 +259,38 @@ function Balao({
   return (
     <>
       {mensagem.separador && (
-        <p className="mx-auto my-2 rounded-lg bg-white px-3 py-1 text-[13px] font-medium text-[#54656f] shadow-sm">
+        <p className="mx-auto mt-3 mb-1 rounded-lg bg-white px-3 py-1 text-[12.5px] font-medium text-[#54656f] shadow-sm">
           {mensagem.separador}
         </p>
       )}
       <div
         className={cn(
-          'flex max-w-[85%] flex-col gap-1',
+          'flex max-w-[85%] flex-col gap-0.5',
           daEquipe ? 'self-start' : 'self-end',
+          inicio ? 'mt-2' : 'mt-0.5',
           mensagem.botoes?.length && 'min-w-[240px]',
         )}
       >
         <div
           className={cn(
-            'rounded-lg px-2.5 pt-1.5 pb-1 text-[15px] leading-snug whitespace-pre-line shadow-sm',
-            daEquipe ? 'rounded-tl-none bg-white' : 'rounded-tr-none bg-whatsapp-balao',
-            mensagem.alerta && 'border-l-4 border-risco',
+            'relative rounded-lg px-2.5 pt-1.5 pb-1 text-[15px] leading-snug whitespace-pre-line drop-shadow-[0_1px_0.5px_rgba(11,20,26,0.15)]',
+            daEquipe ? 'bg-white text-white' : 'bg-whatsapp-balao text-whatsapp-balao',
+            inicio && (daEquipe ? 'rounded-tl-none' : 'rounded-tr-none'),
           )}
         >
-          {mensagem.texto}
-          <span className="mt-0.5 flex items-center justify-end gap-1 text-[12px] text-[#54656f]">
+          {inicio && (
+            <svg
+              aria-hidden
+              viewBox="0 0 8 11"
+              className={cn('absolute top-0 h-[11px] w-2', daEquipe ? '-left-2' : '-right-2')}
+            >
+              <path d={PONTA[mensagem.de]} fill="currentColor" />
+            </svg>
+          )}
+          <span className="text-[#111b21]">{mensagem.texto}</span>
+          <span className="mt-0.5 flex items-center justify-end gap-1 text-[11px] text-[#54656f]">
             {mensagem.hora}
-            {!daEquipe && <CheckCheck className="size-4 text-[#027eb5]" aria-hidden />}
+            {!daEquipe && <CheckCheck className="size-4 text-[#53bdeb]" aria-hidden />}
           </span>
           {mensagem.lista && (
             <button
