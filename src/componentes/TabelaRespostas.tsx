@@ -18,7 +18,12 @@ export function TabelaRespostas({
 }) {
   const estressores = ESTRESSORES.filter((e) => respostas.some((r) => r.estressores.includes(e.id)))
   const celula = (i: number) =>
-    cn('h-7 cursor-pointer rounded-md text-center tabular-nums', i === indice && 'ring-[1.5px] ring-foreground ring-inset')
+    cn(
+      'h-7 cursor-pointer rounded-md text-center tabular-nums group-hover/linha:shadow-[inset_0_0_0_1.5px_rgb(19_81_180/0.55)]',
+      i === indice && 'ring-[1.5px] ring-foreground ring-inset',
+    )
+  const linha = 'group/linha'
+  const rotuloLinha = 'truncate rounded-md pr-2 pl-1.5 text-left group-hover/linha:bg-accent group-hover/linha:text-accent-foreground'
   const grupo = (titulo: string) => (
     <tr>
       <th colSpan={respostas.length + 1} scope="colgroup" className="pt-3 pb-1 text-left text-[12px] font-semibold text-muted-foreground">
@@ -59,8 +64,8 @@ export function TabelaRespostas({
         <tbody>
           {grupo('Sintomas')}
           {PERGUNTAS_CURTAS.map((rotulo, p) => (
-            <tr key={rotulo}>
-              <th scope="row" title={PERGUNTAS[p]} className="truncate pr-2 text-left font-normal">
+            <tr key={rotulo} className={linha}>
+              <th scope="row" title={PERGUNTAS[p]} className={cn(rotuloLinha, 'font-normal')}>
                 <span className="text-muted-foreground tabular-nums">{p + 1}. </span>
                 {rotulo}
               </th>
@@ -69,6 +74,7 @@ export function TabelaRespostas({
                 return (
                   <td
                     key={r.id}
+                    title={`${PERGUNTAS[p]}\n${dataCurta(r.data)}: ${OPCOES[valor].toLowerCase()}`}
                     onClick={() => aoSelecionar(r.id)}
                     className={cn(celula(i), (p === 8 ? INTENSIDADE_RISCO : INTENSIDADE)[valor])}
                   >
@@ -79,8 +85,8 @@ export function TabelaRespostas({
               })}
             </tr>
           ))}
-          <tr>
-            <th scope="row" className="pr-2 text-left font-semibold">
+          <tr className={linha}>
+            <th scope="row" className={cn(rotuloLinha, 'font-semibold')}>
               Pontuação total
             </th>
             {respostas.map((r, i) => (
@@ -91,14 +97,19 @@ export function TabelaRespostas({
           </tr>
           {estressores.length > 0 && grupo('Estressores marcados')}
           {estressores.map((e) => (
-            <tr key={e.id}>
-              <th scope="row" className="truncate pr-2 text-left font-normal">
+            <tr key={e.id} className={linha}>
+              <th scope="row" className={cn(rotuloLinha, 'font-normal')}>
                 {e.nome}
               </th>
               {respostas.map((r, i) => {
                 const marcado = r.estressores.includes(e.id)
                 return (
-                  <td key={r.id} onClick={() => aoSelecionar(r.id)} className={celula(i)}>
+                  <td
+                    key={r.id}
+                    title={`${e.nome}\n${dataCurta(r.data)}: ${marcado ? 'marcado' : 'não marcado'}`}
+                    onClick={() => aoSelecionar(r.id)}
+                    className={celula(i)}
+                  >
                     {marcado ? <Check className="mx-auto size-4" aria-label="Marcado" /> : <span className="sr-only">Não marcado</span>}
                   </td>
                 )
