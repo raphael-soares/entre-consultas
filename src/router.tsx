@@ -12,6 +12,9 @@ import { InicioPaciente } from '@/telas/paciente/InicioPaciente'
 import { LayoutPaciente } from '@/telas/paciente/LayoutPaciente'
 import { Questionario } from '@/telas/paciente/Questionario'
 import { Respostas } from '@/telas/paciente/Respostas'
+import { DetalheEncaminhamento } from '@/telas/psiquiatra/DetalheEncaminhamento'
+import { LayoutPsiquiatra } from '@/telas/psiquiatra/LayoutPsiquiatra'
+import { ListaEncaminhamentos } from '@/telas/psiquiatra/ListaEncaminhamentos'
 import { WhatsApp } from '@/telas/whatsapp/WhatsApp'
 
 export const router = createBrowserRouter([
@@ -47,6 +50,19 @@ export const router = createBrowserRouter([
               { path: 'pacientes/:id', element: <Evolucao /> },
               { path: 'pacientes/:id/registrar', element: <Registrar /> },
               { path: 'pacientes/:id/encaminhar', element: <Encaminhar /> },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'psiquiatra',
+        element: <Protegida perfil="psiquiatra" />,
+        children: [
+          {
+            element: <LayoutPsiquiatra />,
+            children: [
+              { index: true, element: <ListaEncaminhamentos /> },
+              { path: 'encaminhamentos/:id', element: <DetalheEncaminhamento /> },
             ],
           },
         ],

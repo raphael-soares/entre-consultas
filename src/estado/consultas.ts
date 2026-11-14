@@ -48,6 +48,7 @@ export function montarFicha(dados: Dados, pacienteId: string, acompanhamento?: A
   if (!cadastro || !acomp) return null
   const respostas = respostasDoAcompanhamento(acomp, dados.respostas)
   const encaminhamento = dados.encaminhamentos.find((e) => e.pacienteId === pacienteId)
+  const ate = acomp.encerramento?.data ?? HOJE
   return {
     cadastro,
     acompanhamento: acomp,
@@ -59,8 +60,8 @@ export function montarFicha(dados: Dados, pacienteId: string, acompanhamento?: A
     destaques: destaques({ acompanhamento: acomp, respostas, encaminhado: !!encaminhamento }, HOJE),
     prevista: dataPrevista(acomp, respostas),
     lembretes: lembretes(cadastro, acomp, respostas),
-    lacunas: lacunas(acomp, respostas, HOJE),
-    tratamento: respostaTratamento(respostas, HOJE),
+    lacunas: lacunas(acomp, respostas, ate),
+    tratamento: respostaTratamento(respostas, ate),
   }
 }
 
