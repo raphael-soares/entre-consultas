@@ -15,7 +15,7 @@ pnpm install
 pnpm dev
 ```
 
-Abra o endereço que o Vite mostrar (por padrão http://localhost:5173). Tudo fica no navegador: as mudanças da demonstração são guardadas no `localStorage` e o botão "Demonstração", no canto da tela, volta tudo ao estado inicial.
+Abra o endereço que o Vite mostrar (por padrão http://localhost:5173). Tudo fica no navegador: as mudanças da demonstração são guardadas no `localStorage`, e o botão de reiniciar na barra de demonstração, no canto da tela, volta tudo ao estado inicial.
 
 ## Contas de demonstração
 
@@ -27,7 +27,7 @@ O login é "Entrar com gov.br" para os três perfis. A etapa do gov.br é uma si
 | Profissional (Enf. Juliana Costa) | 222.222.222-22 | `/equipe` |
 | Psiquiatra (Dr. Marcos Lima) | 333.333.333-33 | `/psiquiatra` |
 
-A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede login. O botão "Demonstração" também troca de perfil sem passar pela tela de login.
+A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede login. A barra de demonstração troca de perfil sem passar pela tela de login, na ordem do roteiro: Ana no WhatsApp, Juliana, Marcos e Fernanda, com um clique ou com Alt+1 a Alt+4. A seta da barra recolhe ela.
 
 ## Roteiro sugerido
 
