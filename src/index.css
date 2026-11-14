@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-faixa-minima: var(--faixa-minima);
+  --color-faixa-leve: var(--faixa-leve);
+  --color-faixa-moderada: var(--faixa-moderada);
+  --color-faixa-moderadamente-grave: var(--faixa-moderadamente-grave);
+  --color-faixa-grave: var(--faixa-grave);
+  --color-risco: var(--risco);
+  --color-whatsapp-fundo: #efeae2;
+  --color-whatsapp-topo: #008069;
+  --color-whatsapp-balao: #d9fdd3;
+  --color-palco: #d5d8df;
+  --color-palco-foreground: #3a3a3c;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1.125rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+}
+
+:root {
+  --background: #f2f2f7;
+  --foreground: #1c1c1e;
+  --card: #ffffff;
+  --card-foreground: #1c1c1e;
+  --popover: #ffffff;
+  --popover-foreground: #1c1c1e;
+  --primary: #1351b4;
+  --primary-hover: #0c326f;
+  --primary-foreground: #ffffff;
+  --secondary: #e9e9ef;
+  --secondary-foreground: #1c1c1e;
+  --muted: #f2f2f7;
+  --muted-foreground: #6c6c70;
+  --accent: #eaf0fa;
+  --accent-foreground: #0c326f;
+  --destructive: #b3261e;
+  --border: #e5e5ea;
+  --input: #d1d1d6;
+  --ring: #1351b4;
+  --chart-1: #1351b4;
+  --radius: 0.625rem;
+  --faixa-minima: #1b7f3b;
+  --faixa-leve: #7a6400;
+  --faixa-moderada: #a35100;
+  --faixa-moderadamente-grave: #c2410c;
+  --faixa-grave: #b3261e;
+  --risco: #b3261e;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 15px;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
