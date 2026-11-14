@@ -8,21 +8,12 @@ describe('situacaoEncaminhamento', () => {
     expect(situacaoEncaminhamento({})).toBe('novo')
   })
 
-  it('avança para visto, consulta marcada e respondido', () => {
+  it('avança para visto e depois respondido', () => {
     expect(situacaoEncaminhamento({ vistoEm: '2026-11-10' })).toBe('visto')
-    expect(situacaoEncaminhamento({ vistoEm: '2026-11-10', consulta: { data: '2026-11-18', marcadaEm: '2026-11-10' } })).toBe(
-      'consulta-marcada',
-    )
-    expect(
-      situacaoEncaminhamento({
-        vistoEm: '2026-11-10',
-        consulta: { data: '2026-11-18', marcadaEm: '2026-11-10' },
-        contrarreferencia: resposta,
-      }),
-    ).toBe('respondido')
+    expect(situacaoEncaminhamento({ vistoEm: '2026-11-10', contrarreferencia: resposta })).toBe('respondido')
   })
 
-  it('a contrarreferência fecha o encaminhamento mesmo sem consulta registrada', () => {
+  it('a contrarreferência fecha o encaminhamento mesmo sem visto registrado', () => {
     expect(situacaoEncaminhamento({ contrarreferencia: resposta })).toBe('respondido')
   })
 })

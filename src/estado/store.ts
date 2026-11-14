@@ -73,7 +73,6 @@ interface Estado extends Dados {
     detalhe?: string
   }) => void
   marcarVisto: (encaminhamentoId: string) => void
-  marcarConsulta: (encaminhamentoId: string, data: string) => void
   responderEncaminhamento: (encaminhamentoId: string, resposta: Omit<Contrarreferencia, 'data'>) => void
   definirRascunho: (canal: CanalPaciente, rascunho: Rascunho | undefined) => void
   reiniciar: () => void
@@ -209,11 +208,6 @@ export const useStore = create<Estado>()(
       marcarVisto: (id) =>
         set((s) => ({
           encaminhamentos: s.encaminhamentos.map((e) => (e.id === id && !e.vistoEm ? { ...e, vistoEm: HOJE } : e)),
-        })),
-
-      marcarConsulta: (id, data) =>
-        set((s) => ({
-          encaminhamentos: s.encaminhamentos.map((e) => (e.id === id ? { ...e, consulta: { data, marcadaEm: HOJE } } : e)),
         })),
 
       responderEncaminhamento: (id, resposta) =>

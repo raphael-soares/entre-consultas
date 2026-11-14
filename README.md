@@ -35,7 +35,7 @@ A conversa do WhatsApp da paciente Ana Beatriz fica em `/whatsapp` e não pede l
 2. Entre como Juliana: a Ana sobe para o topo da lista com o destaque Risco, e a evolução mostra o ponto novo com alerta e canal WhatsApp.
 3. Abra o Carlos, que aparece com "Sugere encaminhamento", e encaminhe para o Dr. Marcos.
 4. Entre como Marcos: o Carlos entra na lista de encaminhamentos como Novo, na ordem de prioridade, e o resumo abre com as respostas completas no painel à direita.
-5. No resumo do Carlos, marque a consulta e depois responda à unidade com conduta, medicação e quando reencaminhar.
+5. No resumo do Carlos, responda à unidade com conduta, medicação e quando reencaminhar.
 6. Volte como Juliana: a ficha do Carlos mostra a orientação do Dr. Marcos.
 
 ## Comandos

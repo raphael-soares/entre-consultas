@@ -36,7 +36,7 @@ O paciente responde por três canais, o que quiser a cada vez: conversa no Whats
 | 009 | Ver encaminhamentos recebidos | Psiquiatra | lista (paciente, situação, última pontuação e faixa, motivo, data) e resumo do encaminhamento | 007, 008, 012 | 006, 011 |
 | 010 | Receber lembrete do questionário | Paciente | celular, data prevista, botões "Responder aqui" (abre a conversa no WhatsApp) e "Responder no site" (link) | 002, 005 | 004, 009 |
 | 011 | Transferir paciente | Profissional da unidade | tipo (acompanhamento ou encaminhamento), destino, motivo (férias, afastamento, desligamento, outro), data, quem transferiu | 005, 006, 008 | 010 |
-| 012 | Responder encaminhamento | Psiquiatra, Profissional da unidade | data da consulta marcada; contrarreferência: conduta, medicação, quando reencaminhar, data. A unidade lê a situação e a orientação na evolução do paciente | 007, 008, 009 | 011 |
+| 012 | Responder encaminhamento | Psiquiatra, Profissional da unidade | contrarreferência: conduta, medicação, quando reencaminhar, data. A unidade lê a situação e a orientação na evolução do paciente | 007, 008, 009 | 011 |
 
 No WhatsApp o paciente é reconhecido pelo número do cadastro, sem login; o login do R.F. 001 vale para o site e usa a conta gov.br para os três perfis. O resumo do R.F. 008 cobre o que a linha de cuidado exige no encaminhamento: quadro atual e ideação saem do sistema; prejuízo funcional e tratamentos já feitos o profissional preenche. O R.F. 012 fecha o ciclo: o encaminhamento volta para a unidade com a orientação do especialista, e a unidade continua coordenando o cuidado.
 
@@ -54,7 +54,7 @@ No WhatsApp o paciente é reconhecido pelo número do cadastro, sem login; o log
 | R.N. 008 | Destaques da lista | Prioridade: Risco (R.N. 001); Piorou (a última pontuação está numa faixa acima da anterior); Sem resposta (7 dias depois da data prevista); Sugere encaminhamento (R.N. 003); Em dia. A lista agrupa pelo destaque mais alto, numa seção para cada um, e mostra os outros como texto na linha. Paciente com encaminhamento fica na seção Encaminhados. Destaque sempre com texto, nunca só cor |
 | R.N. 009 | Lembrete | WhatsApp na data prevista e de novo 3 dias depois, só para quem tem celular no cadastro, com os botões "Responder aqui" e "Responder no site". O texto do lembrete não leva dado de saúde |
 | R.N. 010 | Transferência | Qualquer profissional da mesma equipe transfere o acompanhamento para outro profissional da mesma equipe, ou redireciona um encaminhamento para outro psiquiatra. Motivo obrigatório. O histórico vai junto e a transferência fica registrada (quem, quando, motivo) |
-| R.N. 011 | Contrarreferência | O encaminhamento passa por Novo, Visto (quando o psiquiatra abre), Consulta marcada e Respondido (quando a orientação volta para a unidade). Conduta, medicação e quando reencaminhar são obrigatórios. O paciente continua sendo acompanhado pela unidade |
+| R.N. 011 | Contrarreferência | O encaminhamento passa por Novo, Visto (quando o psiquiatra abre) e Respondido (quando a orientação volta para a unidade). A consulta com o especialista é agendada pela regulação, fora do sistema. Conduta, medicação e quando reencaminhar são obrigatórios. O paciente continua sendo acompanhado pela unidade |
 
 ## Histórias de usuário
 
@@ -160,7 +160,7 @@ A equipe da unidade vê a pontuação, a faixa e a pergunta 9, não as respostas
 
 Lista em tabela, em duas seções ("Para atender" e "Respondidos"): paciente, situação (ponto azul nos novos), última pontuação e faixa, motivo e quando chegou o encaminhamento. A ordem é pensamentos de se ferir na última resposta, depois a pontuação mais alta e, no empate, quem espera há mais tempo.
 
-Resumo: o texto do encaminhamento, o cartão "Agora", o mesmo gráfico e a tabela "Respostas ao longo do tempo", com cada pergunta (de 0 a 3) e cada estressor numa linha por data. Um painel fixo à direita abre na última resposta e mostra as nove perguntas por extenso, a resposta, a mudança desde a anterior e os estressores; troca de resposta pelas setas, pelos pontos do gráfico ou pelas datas da tabela. O painel e a tabela vão além do R.F. 007 e foram aprovados na revisão das telas. Abrir o resumo marca o encaminhamento como visto; os botões "Marcar consulta" e "Responder à unidade" registram o R.F. 012.
+Resumo: o texto do encaminhamento, o cartão "Agora", o mesmo gráfico e a tabela "Respostas ao longo do tempo", com cada pergunta (de 0 a 3) e cada estressor numa linha por data. Um painel fixo à direita abre na última resposta e mostra as nove perguntas por extenso, a resposta, a mudança desde a anterior e os estressores; troca de resposta pelas setas, pelos pontos do gráfico ou pelas datas da tabela. O painel e a tabela vão além do R.F. 007 e foram aprovados na revisão das telas. Abrir o resumo marca o encaminhamento como visto; o botão "Responder à unidade" registra o R.F. 012.
 
 ### Boas práticas de UI
 

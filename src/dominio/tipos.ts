@@ -70,7 +70,6 @@ export interface Encaminhamento {
   tratamentos: string
   resumo: ResumoEncaminhamento
   vistoEm?: string
-  consulta?: { data: string; marcadaEm: string }
   contrarreferencia?: Contrarreferencia
 }
 

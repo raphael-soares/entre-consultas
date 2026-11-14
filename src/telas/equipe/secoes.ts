@@ -77,8 +77,6 @@ function situacao(ficha: Ficha): string | null {
       return `Enviado ao ${nomeCurto(e.psiquiatraId)}`
     case 'visto':
       return `Visto pelo ${nomeCurto(e.psiquiatraId)}`
-    case 'consulta-marcada':
-      return `Consulta marcada ${emDias(e.consulta!.data)}`
     case 'respondido':
       return `Orientação do ${nomeCurto(e.psiquiatraId)}`
   }

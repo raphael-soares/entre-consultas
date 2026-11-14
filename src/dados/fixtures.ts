@@ -259,7 +259,6 @@ export const ENCAMINHAMENTOS: Encaminhamento[] = [
       tratamentos: 'Fluoxetina 20 mg por 8 semanas e depois 40 mg por 6 semanas, sem melhora. Acompanhamento com a enfermagem da unidade.',
     }),
     vistoEm: somarDias(HOJE, -20),
-    consulta: { data: somarDias(HOJE, -14), marcadaEm: somarDias(HOJE, -20) },
     contrarreferencia: {
       data: somarDias(HOJE, -14),
       conduta:
@@ -288,7 +287,6 @@ export const ENCAMINHAMENTOS: Encaminhamento[] = [
       tratamentos: 'Sertralina 100 mg há 10 semanas, compatível com amamentação.',
     }),
     vistoEm: somarDias(HOJE, -29),
-    consulta: { data: somarDias(HOJE, 5), marcadaEm: somarDias(HOJE, -28) },
   },
   encaminhamento('antonio', 6, 'rafael', {
     motivo: 'Luto pela esposa há 4 meses, pontuação subindo e pensamento de se ferir na última visita.',
@@ -302,7 +300,6 @@ export const ENCAMINHAMENTOS: Encaminhamento[] = [
       tratamentos: 'Fluoxetina 20 mg por 4 semanas, sem efeito. Trocada por amitriptilina 25 mg há 3 semanas.',
     }),
     vistoEm: somarDias(HOJE, -98),
-    consulta: { data: somarDias(HOJE, -85), marcadaEm: somarDias(HOJE, -98) },
     contrarreferencia: {
       data: somarDias(HOJE, -85),
       conduta: 'Depressão moderada com boa resposta inicial. Sem necessidade de seguimento especializado agora.',

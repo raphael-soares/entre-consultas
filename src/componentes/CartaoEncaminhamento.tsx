@@ -36,7 +36,6 @@ export function CartaoEncaminhamento({ encaminhamento: e }: { encaminhamento: En
           legenda={`${dataPorExtenso(e.data)}, por ${nomeDoUsuario(e.profissionalId)}`}
         />
         {e.vistoEm && <Linha titulo="Visto" legenda={dataPorExtenso(e.vistoEm)} />}
-        {e.consulta && <Linha titulo={`Consulta marcada para ${dataPorExtenso(e.consulta.data).toLowerCase()}`} />}
       </ul>
       {contra && (
         <div className="mt-3.5 flex flex-col gap-2.5 border-t pt-3.5">

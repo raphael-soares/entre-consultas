@@ -1,4 +1,4 @@
-import { CalendarPlus, ChevronLeft, FileX, Pencil, Reply } from 'lucide-react'
+import { ChevronLeft, FileX, Pencil, Reply } from 'lucide-react'
 import { useEffect, useMemo } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
@@ -8,12 +8,11 @@ import { PainelEvolucao } from '@/componentes/PainelEvolucao'
 import { Button } from '@/componentes/ui/button'
 import { CADASTROS, UNIDADE, nomeDoUsuario } from '@/dados/fixtures'
 import { situacaoEncaminhamento } from '@/dominio/encaminhamento'
-import { HOJE, dataLonga, dataPorExtenso, idade } from '@/dominio/hoje'
+import { HOJE, dataLonga, idade } from '@/dominio/hoje'
 import type { Encaminhamento } from '@/dominio/tipos'
 import { fichaDoEncaminhamento, useDados } from '@/estado/consultas'
 import { useStore, useUsuarioLogado } from '@/estado/store'
 import { CartaoContrarreferencia, PainelContrarreferencia } from './PainelContrarreferencia'
-import { PainelConsulta } from './PainelConsulta'
 
 const VOLTAR = (
   <Button asChild variant="ghost" className="self-start px-2">
@@ -27,11 +26,9 @@ const VOLTAR = (
 function textoSituacao(e: Encaminhamento): string {
   switch (situacaoEncaminhamento(e)) {
     case 'novo':
-      return 'Novo, ainda sem consulta marcada'
+      return 'Novo, ainda sem resposta à unidade'
     case 'visto':
-      return 'Visto, ainda sem consulta marcada'
-    case 'consulta-marcada':
-      return `Consulta marcada para ${dataPorExtenso(e.consulta!.data).toLowerCase()}`
+      return 'Visto, ainda sem resposta à unidade'
     case 'respondido':
       return `Respondido em ${dataLonga(e.contrarreferencia!.data)}`
   }
@@ -44,7 +41,7 @@ export function DetalheEncaminhamento() {
   const marcarVisto = useStore((s) => s.marcarVisto)
   const [params, setParams] = useSearchParams()
   const painel = params.get('painel')
-  const abrirPainel = (nome: 'consulta' | 'responder') =>
+  const abrirPainel = (nome: 'responder') =>
     setParams((atual) => {
       const proximo = new URLSearchParams(atual)
       proximo.set('painel', nome)
@@ -114,16 +111,10 @@ export function DetalheEncaminhamento() {
               Editar resposta
             </Button>
           ) : (
-            <>
-              <Button variant="outline" onClick={() => abrirPainel('consulta')}>
-                <CalendarPlus aria-hidden />
-                {encaminhamento.consulta ? 'Remarcar consulta' : 'Marcar consulta'}
-              </Button>
-              <Button onClick={() => abrirPainel('responder')}>
-                <Reply aria-hidden />
-                Responder à unidade
-              </Button>
-            </>
+            <Button onClick={() => abrirPainel('responder')}>
+              <Reply aria-hidden />
+              Responder à unidade
+            </Button>
           )}
         </div>
       </header>
@@ -156,14 +147,6 @@ export function DetalheEncaminhamento() {
         inspetor
       />
 
-      {painel === 'consulta' && !respondido && (
-        <PainelConsulta
-          fechar={fecharPainel}
-          encaminhamentoId={encaminhamento.id}
-          paciente={cadastro.nome}
-          dataAtual={encaminhamento.consulta?.data}
-        />
-      )}
       {painel === 'responder' && (
         <PainelContrarreferencia
           fechar={fecharPainel}

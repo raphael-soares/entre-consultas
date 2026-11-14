@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router'
 import { BadgeFaixa } from '@/componentes/BadgeFaixa'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { UNIDADE } from '@/dados/fixtures'
-import { situacaoEncaminhamento } from '@/dominio/encaminhamento'
-import { HOJE, dataCurta, dataRelativa, idade } from '@/dominio/hoje'
+import { NOMES_SITUACAO, situacaoEncaminhamento } from '@/dominio/encaminhamento'
+import { HOJE, dataRelativa, idade } from '@/dominio/hoje'
 import { pontuacao } from '@/dominio/phq9'
 import { useEncaminhamentosDe, type CasoEncaminhado } from '@/estado/consultas'
 import { useUsuarioLogado } from '@/estado/store'
@@ -16,20 +16,6 @@ const COLUNAS = ['Paciente', 'Situação', 'Agora', 'Motivo', 'Encaminhado']
 const Legenda = ({ children }: { children: ReactNode }) => (
   <p className="text-[12px] leading-snug text-muted-foreground">{children}</p>
 )
-
-function textoSituacao(caso: CasoEncaminhado): string {
-  const { encaminhamento } = caso
-  switch (situacaoEncaminhamento(encaminhamento)) {
-    case 'novo':
-      return 'Novo'
-    case 'visto':
-      return 'Visto'
-    case 'consulta-marcada':
-      return `Consulta ${dataCurta(encaminhamento.consulta!.data)}`
-    case 'respondido':
-      return 'Respondido'
-  }
-}
 
 export function ListaEncaminhamentos() {
   const usuario = useUsuarioLogado()!
@@ -149,7 +135,7 @@ function Linha({ caso }: { caso: CasoEncaminhado }) {
         </div>
       </td>
       <td className={cn('px-3 py-2.5 text-[14px] leading-snug', novo ? 'font-semibold text-primary' : 'text-muted-foreground')}>
-        {textoSituacao(caso)}
+        {NOMES_SITUACAO[situacaoEncaminhamento(caso.encaminhamento)]}
       </td>
       <td className="px-3 py-2.5">
         {total !== null ? (
