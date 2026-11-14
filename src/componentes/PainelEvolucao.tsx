@@ -42,7 +42,7 @@ export function PainelEvolucao({
 
   const grafico = (
     <section className="min-w-0 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
-      <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>
+      {respostas.length === 0 && <h2 className="mb-2 text-[15px] font-semibold">Evolução</h2>}
       {respostas.length ? (
         <GraficoEvolucao
           respostas={respostas}

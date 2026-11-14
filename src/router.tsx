@@ -7,11 +7,13 @@ import { Evolucao } from '@/telas/equipe/Evolucao'
 import { InicioEquipe } from '@/telas/equipe/InicioEquipe'
 import { LayoutEquipe } from '@/telas/equipe/LayoutEquipe'
 import { Registrar } from '@/telas/equipe/Registrar'
+import { GovBr } from '@/telas/login/GovBr'
 import { Login } from '@/telas/login/Login'
 import { InicioPaciente } from '@/telas/paciente/InicioPaciente'
 import { LayoutPaciente } from '@/telas/paciente/LayoutPaciente'
 import { Questionario } from '@/telas/paciente/Questionario'
 import { Respostas } from '@/telas/paciente/Respostas'
+import { RespostaDetalhe } from '@/telas/paciente/RespostaDetalhe'
 import { DetalheEncaminhamento } from '@/telas/psiquiatra/DetalheEncaminhamento'
 import { LayoutPsiquiatra } from '@/telas/psiquiatra/LayoutPsiquiatra'
 import { ListaEncaminhamentos } from '@/telas/psiquiatra/ListaEncaminhamentos'
@@ -23,6 +25,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Inicio /> },
       { path: 'login', element: <Login /> },
+      { path: 'login/govbr', element: <GovBr /> },
       { path: 'whatsapp', element: <WhatsApp /> },
       {
         path: 'paciente',
@@ -34,6 +37,7 @@ export const router = createBrowserRouter([
               { index: true, element: <InicioPaciente /> },
               { path: 'questionario', element: <Questionario /> },
               { path: 'respostas', element: <Respostas /> },
+              { path: 'respostas/:id', element: <RespostaDetalhe /> },
             ],
           },
         ],
@@ -47,9 +51,14 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <InicioEquipe /> },
               { path: 'abrir', element: <Abrir /> },
-              { path: 'pacientes/:id', element: <Evolucao /> },
-              { path: 'pacientes/:id/registrar', element: <Registrar /> },
-              { path: 'pacientes/:id/encaminhar', element: <Encaminhar /> },
+              {
+                path: 'pacientes/:id',
+                element: <Evolucao />,
+                children: [
+                  { path: 'registrar', element: <Registrar /> },
+                  { path: 'encaminhar', element: <Encaminhar /> },
+                ],
+              },
             ],
           },
         ],

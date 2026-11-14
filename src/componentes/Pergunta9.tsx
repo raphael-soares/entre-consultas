@@ -14,16 +14,17 @@ function Quadrado({ valor, className }: { valor: number; className?: string }) {
   )
 }
 
-export function LegendaPergunta9() {
+export function EscalaPergunta9() {
   return (
-    <ul className="flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-muted-foreground">
-      {OPCOES.map((opcao, valor) => (
-        <li key={opcao} className="flex items-center gap-1.5">
-          <Quadrado valor={valor} />
-          {opcao}
-        </li>
-      ))}
-    </ul>
+    <span className="flex items-center gap-1.5">
+      {OPCOES[0]}
+      <span className="flex gap-1" aria-hidden>
+        {OPCOES.map((opcao, valor) => (
+          <Quadrado key={opcao} valor={valor} />
+        ))}
+      </span>
+      {OPCOES[3]}
+    </span>
   )
 }
 

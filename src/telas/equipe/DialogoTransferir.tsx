@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { EscolhaUnica } from '@/componentes/EscolhaUnica'
+import { Segmentado } from '@/componentes/Segmentado'
 import { Button } from '@/componentes/ui/button'
 import {
   Dialog,
@@ -70,11 +71,11 @@ export function DialogoTransferir({ aberto, fechar, ficha }: { aberto: boolean; 
         </DialogHeader>
         <Field>
           <FieldLabel className="text-[15px]">O que transferir</FieldLabel>
-          <EscolhaUnica
+          <Segmentado
             rotulo="O que transferir"
             valor={tipo}
             aoMudar={trocarTipo}
-            className="grid-cols-2"
+            className="w-full"
             opcoes={[
               { valor: 'acompanhamento', rotulo: 'Acompanhamento' },
               { valor: 'encaminhamento', rotulo: 'Encaminhamento', desabilitada: !ficha.encaminhamento },

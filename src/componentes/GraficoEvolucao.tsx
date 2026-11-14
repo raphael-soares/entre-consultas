@@ -1,12 +1,15 @@
+import { useEffect, useState } from 'react'
 import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceDot, Tooltip, XAxis, YAxis } from 'recharts'
 import { ChartContainer, type ChartConfig } from '@/componentes/ui/chart'
 import type { Lacuna } from '@/dominio/evolucao'
-import { dataCurta, dataLonga, paraTempo } from '@/dominio/hoje'
-import { COMO_RESPONDEU, FAIXAS, OPCOES, faixa, pontuacao } from '@/dominio/phq9'
+import { dataCurta, dataPorExtenso, paraTempo, somarDias } from '@/dominio/hoje'
+import { CANAIS, FAIXAS, OPCOES, pontuacao } from '@/dominio/phq9'
 import type { Canal, Resposta } from '@/dominio/tipos'
 import { ESTILO_PERGUNTA9 } from '@/lib/pergunta9'
 import { cn } from '@/lib/utils'
-import { LegendaPergunta9 } from './Pergunta9'
+import { BadgeFaixa } from './BadgeFaixa'
+import { EscalaPergunta9 } from './Pergunta9'
+import { Segmentado } from './Segmentado'
 
 interface Ponto {
   t: number
@@ -16,6 +19,15 @@ interface Ponto {
   canal?: Canal
   pergunta9?: number
 }
+
+type Intervalo = '3m' | '6m' | 'tudo'
+
+const INTERVALOS: { valor: Intervalo; rotulo: string }[] = [
+  { valor: '3m', rotulo: '3 meses' },
+  { valor: '6m', rotulo: '6 meses' },
+  { valor: 'tudo', rotulo: 'Tudo' },
+]
+const DIAS_DO_INTERVALO: Record<Intervalo, number | null> = { '3m': 91, '6m': 182, tudo: null }
 
 const config = { pontuacao: { label: 'Pontuação', color: 'var(--primary)' } } satisfies ChartConfig
 const COR_LACUNA = '#8E8E93'
@@ -51,11 +63,31 @@ export function GraficoEvolucao({
   selecionada?: string
   aoSelecionar?: (id: string) => void
 }) {
-  const pontos = montarPontos(respostas, lacunas)
-  const ticks = respostas.map((r) => paraTempo(r.data))
+  const [intervalo, setIntervalo] = useState<Intervalo>('tudo')
+  const [sobre, setSobre] = useState<string>()
+
+  const dias = DIAS_DO_INTERVALO[intervalo]
+  const desde = dias === null || somarDias(ate, -dias) < inicio ? inicio : somarDias(ate, -dias)
+  const visiveis = respostas.filter((r) => r.data >= desde)
+  const lacunasVisiveis = lacunas
+    .filter((l) => l.ate > desde)
+    .map((l) => (l.de < desde ? { ...l, de: desde } : l))
+  const pontos = montarPontos(visiveis, lacunasVisiveis)
+  const ticks = visiveis.map((r) => paraTempo(r.data))
+
+  const ultima = respostas.at(-1)
+  const lida = respostas.find((r) => r.id === (sobre ?? selecionada)) ?? ultima
+  const marcada = selecionada ?? lida?.id
 
   return (
-    <figure className="flex flex-col gap-2">
+    <figure className="flex flex-col gap-3">
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-[15px] font-semibold">Evolução</h2>
+        <Segmentado rotulo="Período do gráfico" opcoes={INTERVALOS} valor={intervalo} aoMudar={setIntervalo} />
+      </div>
+
+      {lida && <Leitura resposta={lida} ehUltima={lida.id === ultima?.id} />}
+
       <ChartContainer config={config} className={cn('aspect-auto h-[240px] w-full', aoSelecionar && 'cursor-pointer')}>
         <LineChart
           data={pontos}
@@ -79,7 +111,7 @@ export function GraficoEvolucao({
               )}
             />
           ))}
-          {lacunas.map((l) => (
+          {lacunasVisiveis.map((l) => (
             <ReferenceArea
               key={l.de}
               x1={paraTempo(l.de)}
@@ -92,7 +124,7 @@ export function GraficoEvolucao({
               label={{ value: 'Sem resposta', position: 'insideTop', fill: '#3A3A3C', fontSize: 12, fontWeight: 600 }}
             />
           ))}
-          {respostas.map((r) => (
+          {visiveis.map((r) => (
             <ReferenceDot
               key={r.id}
               x={paraTempo(r.data)}
@@ -106,7 +138,7 @@ export function GraficoEvolucao({
             dataKey="t"
             type="number"
             scale="time"
-            domain={[paraTempo(inicio), paraTempo(ate)]}
+            domain={[paraTempo(desde), paraTempo(ate)]}
             ticks={ticks}
             tickFormatter={(t: number) => dataCurta(new Date(t).toISOString().slice(0, 10))}
             tick={{ fill: '#3A3A3C', fontSize: 12 }}
@@ -121,7 +153,7 @@ export function GraficoEvolucao({
             axisLine={false}
             width={40}
           />
-          <Tooltip content={<DetalhePonto />} cursor={{ stroke: '#C7C7CC' }} />
+          <Tooltip content={<LeitorDoPonto aoMudar={setSobre} />} cursor={{ stroke: '#C7C7CC' }} />
           <Line
             dataKey="pontuacao"
             type="linear"
@@ -129,36 +161,67 @@ export function GraficoEvolucao({
             strokeWidth={2.5}
             connectNulls={false}
             isAnimationActive={false}
-            dot={(props) => <Marcador key={props.index} {...props} selecionado={props.payload?.id === selecionada} />}
+            dot={(props) => <Marcador key={props.index} {...props} selecionado={props.payload?.id === marcada} />}
             activeDot={(props) => (
-              <Marcador key={props.index} {...props} ativo selecionado={props.payload?.id === selecionada} />
+              <Marcador key={props.index} {...props} ativo selecionado={props.payload?.id === marcada} />
             )}
           />
         </LineChart>
       </ChartContainer>
-      <figcaption className="flex flex-col gap-1 text-[12px] text-muted-foreground">
-        <div className="flex flex-wrap gap-x-4 gap-y-1">
-          <span className="flex items-center gap-1.5">
-            <span className="size-3 rounded-full bg-primary" aria-hidden /> Pontuação do PHQ-9 (0 a 27)
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="grid size-4 place-items-center rounded-full bg-risco text-[10px] font-bold text-white" aria-hidden>
-              !
-            </span>
-            Pensou em se ferir
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-3 w-5 border border-dashed border-[#8E8E93] bg-[#8E8E93]/25" aria-hidden /> Período sem
-            resposta
-          </span>
-        </div>
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="font-medium text-foreground">Pensou em se ferir, por resposta:</span>
-          <LegendaPergunta9 />
-        </div>
+
+      <figcaption className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[12px] text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <span className="size-2.5 rounded-full bg-primary" aria-hidden /> Pontuação
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-3 w-5 border border-dashed border-[#8E8E93] bg-[#8E8E93]/25" aria-hidden /> Sem resposta
+        </span>
+        <span className="flex items-center gap-2">
+          Pensamentos de se ferir:
+          <EscalaPergunta9 />
+        </span>
       </figcaption>
     </figure>
   )
+}
+
+function Leitura({ resposta, ehUltima }: { resposta: Resposta; ehUltima: boolean }) {
+  const total = pontuacao(resposta.itens)
+  const pensamentos = resposta.itens[8]
+  return (
+    <div className="flex min-h-[78px] flex-col gap-0.5">
+      <p className="text-[12px] font-medium text-muted-foreground">{ehUltima ? 'Última resposta' : 'Resposta'}</p>
+      <p className="flex items-baseline gap-3">
+        <span className="text-[32px] leading-none font-bold tracking-tight tabular-nums">{total}</span>
+        <BadgeFaixa pontuacao={total} className="text-[15px]" />
+      </p>
+      <p className="text-[13px] text-muted-foreground">
+        {dataPorExtenso(resposta.data)} · {CANAIS[resposta.canal]}
+        {pensamentos > 0 && (
+          <span className="font-semibold text-risco"> · Pensou em se ferir: {OPCOES[pensamentos].toLowerCase()}</span>
+        )}
+      </p>
+    </div>
+  )
+}
+
+// Não desenha nada: só conta ao gráfico qual ponto está sob o cursor (ou no foco do teclado).
+function LeitorDoPonto({
+  active,
+  payload,
+  aoMudar,
+}: {
+  active?: boolean
+  payload?: readonly { payload: Ponto }[]
+  aoMudar: (id: string | undefined) => void
+}) {
+  const ponto = payload?.[0]?.payload
+  const id = ponto?.id
+  useEffect(() => {
+    if (!active) aoMudar(undefined)
+    else if (id) aoMudar(id)
+  }, [active, id, aoMudar])
+  return null
 }
 
 function RotuloFaixa({
@@ -229,26 +292,5 @@ function Marcador({
       {anel}
       <circle cx={cx} cy={cy} r={ativo ? 7 : 5} fill="var(--primary)" stroke="#fff" strokeWidth={2} />
     </g>
-  )
-}
-
-function DetalhePonto({ active, payload }: { active?: boolean; payload?: { payload: Ponto }[] }) {
-  const ponto = payload?.[0]?.payload
-  if (!active || !ponto || ponto.pontuacao === null || !ponto.data || !ponto.canal) return null
-  const f = faixa(ponto.pontuacao)
-  return (
-    <div className="flex min-w-48 flex-col gap-1 rounded-lg bg-card px-3 py-2 text-[13px] shadow-lg ring-1 ring-border">
-      <p className="font-semibold">{dataLonga(ponto.data)}</p>
-      <p>
-        Pontuação <strong>{ponto.pontuacao}</strong>,{' '}
-        <span className="font-semibold" style={{ color: f.cor }}>
-          {f.nome.toLowerCase()}
-        </span>
-      </p>
-      <p className="text-muted-foreground">{COMO_RESPONDEU[ponto.canal]}</p>
-      {ponto.pergunta9 ? (
-        <p className="font-semibold text-risco">Pensou em se ferir: {OPCOES[ponto.pergunta9].toLowerCase()}</p>
-      ) : null}
-    </div>
   )
 }

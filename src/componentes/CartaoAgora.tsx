@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { TEXTO_RESPOSTA_TRATAMENTO, textoVariacao } from '@/dominio/evolucao'
-import { HOJE, dataLonga, semanasEntre } from '@/dominio/hoje'
+import { HOJE, dataRelativa, semanasEntre } from '@/dominio/hoje'
 import { COMO_RESPONDEU, pontuacao } from '@/dominio/phq9'
 import { lerPergunta9 } from '@/dominio/resumo'
 import type { Ficha } from '@/estado/consultas'
@@ -39,7 +39,7 @@ export function CartaoAgora({ ficha }: { ficha: Ficha }) {
               <BadgeFaixa pontuacao={pontuacao(ultima.itens)} />
             </div>
             <Legenda>
-              {dataLonga(ultima.data)} · {COMO_RESPONDEU[ultima.canal]}
+              {dataRelativa(ultima.data)} · {COMO_RESPONDEU[ultima.canal]}
             </Legenda>
           </>
         ) : (
@@ -52,11 +52,11 @@ export function CartaoAgora({ ficha }: { ficha: Ficha }) {
           <Legenda>{textoVariacao(tratamento.inicial, tratamento.atual)}</Legenda>
         )}
       </Celula>
-      <Celula rotulo="Acompanhamento">
+      <Celula rotulo="Tempo de acompanhamento">
         <p className={VALOR}>
           {semanas} {semanas === 1 ? 'semana' : 'semanas'}
         </p>
-        <Legenda>desde {dataLonga(acompanhamento.inicio)}</Legenda>
+        <Legenda>desde {dataRelativa(acompanhamento.inicio).toLowerCase()}</Legenda>
       </Celula>
       <Celula rotulo="Pensamentos de se ferir">
         <p className={cn(VALOR, pergunta9.positiva && 'text-risco')}>
