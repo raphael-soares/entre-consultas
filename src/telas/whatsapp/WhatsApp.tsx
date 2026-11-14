@@ -145,6 +145,7 @@ export function WhatsApp() {
 
   return (
     <MolduraCelular
+      estilo="whatsapp"
       legenda="WhatsApp da paciente Ana Beatriz, sem login"
       lado={
         <div className="flex flex-col gap-3 text-[15px] text-muted-foreground">
@@ -159,8 +160,8 @@ export function WhatsApp() {
         </div>
       }
     >
-      <div className="relative flex h-svh flex-col bg-whatsapp-fundo min-[501px]:h-full">
-        <header className="flex items-center gap-3 bg-whatsapp-topo px-3 pt-4 pb-3 text-white">
+      <div className="relative flex min-h-0 flex-1 flex-col bg-whatsapp-fundo">
+        <header className="flex items-center gap-3 bg-whatsapp-topo px-3 pt-1 pb-2.5 text-white">
           <ArrowLeft className="size-6" aria-hidden />
           <span className="grid size-10 place-items-center rounded-full bg-white">
             <HeartHandshake className="size-6 text-primary" aria-hidden />

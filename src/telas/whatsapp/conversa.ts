@@ -17,7 +17,7 @@ export interface Mensagem {
 export const PERGUNTA_ESTRESSORES = 'Nas últimas 2 semanas, alguma destas situações pesou para você?'
 const OUTRA_SITUACAO = 'Qual outra situação?'
 const QUAL_OUTRO = 'Qual foi a situação? Pode escrever aqui embaixo.'
-const MAIS_ALGUMA = 'Mais alguma?'
+const MAIS_ALGUMA = 'Mais algum?'
 export const BOTOES_LEMBRETE = ['Responder aqui', 'Responder no site']
 export const BOTOES_ALERTA = ['Ligar para o CVV', 'Continuar']
 export const BOTOES_MAIS = ['Sim', 'Não, terminar']

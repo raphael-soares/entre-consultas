@@ -20,7 +20,7 @@ export function InicioPaciente() {
   const primeiroNome = cadastro.nome.split(' ')[0]
 
   return (
-    <div className="flex flex-1 flex-col gap-5 px-5 pt-6 pb-8">
+    <div className="flex flex-1 flex-col gap-5 px-5 pt-2 pb-6">
       <div className="flex items-center justify-between">
         <Logo compacto />
         <Button
