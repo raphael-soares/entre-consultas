@@ -11,11 +11,11 @@ export type TipoRespostaTratamento =
   | 'inadequada'
 
 export const TEXTO_RESPOSTA_TRATAMENTO: Record<TipoRespostaTratamento, string> = {
-  'sem-respostas': 'Ainda sem respostas',
+  'sem-respostas': 'Sem respostas',
   cedo: 'Cedo para avaliar',
-  adequada: 'Resposta adequada',
-  'possivelmente-inadequada': 'Resposta possivelmente inadequada',
-  inadequada: 'Resposta inadequada',
+  adequada: 'Adequada',
+  'possivelmente-inadequada': 'Possivelmente inadequada',
+  inadequada: 'Inadequada',
 }
 
 export interface RespostaTratamento {

@@ -1,8 +1,9 @@
-import { dataCurta } from '@/dominio/hoje'
-import { OPCOES, nomeEstressor } from '@/dominio/phq9'
+import { nomeEstressor } from '@/dominio/phq9'
+import { lerPergunta9 } from '@/dominio/resumo'
 import type { ResumoEncaminhamento } from '@/dominio/tipos'
 import { cn } from '@/lib/utils'
 import { BadgeFaixa } from './BadgeFaixa'
+import { QuadradosPergunta9 } from './Pergunta9'
 
 function Numero({ rotulo, valor }: { rotulo: string; valor: number | null }) {
   return (
@@ -18,6 +19,7 @@ function Numero({ rotulo, valor }: { rotulo: string; valor: number | null }) {
 
 // R.F. 008: o que sai do sistema; prejuízo funcional e tratamentos são do profissional.
 export function ResumoGerado({ resumo }: { resumo: ResumoEncaminhamento }) {
+  const pergunta9 = lerPergunta9(resumo.pergunta9)
   return (
     <div className="flex flex-col gap-5 text-[15px]">
       <div className="flex flex-col gap-3">
@@ -28,22 +30,13 @@ export function ResumoGerado({ resumo }: { resumo: ResumoEncaminhamento }) {
         <span className="text-muted-foreground">Tempo de acompanhamento: </span>
         <strong>{resumo.semanas} semanas</strong>
       </p>
-      <div>
-        <p className="text-muted-foreground">Pergunta 9 (pensar em se ferir) ao longo do tempo</p>
-        <ul className="mt-2 flex flex-wrap gap-1.5">
-          {resumo.pergunta9.map((p) => (
-            <li
-              key={p.data}
-              title={OPCOES[p.valor]}
-              className={cn(
-                'rounded-md px-2 py-1 text-[13px] font-medium',
-                p.valor > 0 ? 'bg-risco text-white' : 'bg-secondary text-secondary-foreground',
-              )}
-            >
-              {dataCurta(p.data)}: {p.valor > 0 ? OPCOES[p.valor].toLowerCase() : 'não'}
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-2">
+        <p className="text-muted-foreground">Pergunta 9 (pensar em se ferir)</p>
+        <div>
+          <p className={cn('font-semibold', pergunta9.positiva && 'text-risco')}>{pergunta9.titulo}</p>
+          {pergunta9.detalhe && <p className="text-[13px] text-muted-foreground">{pergunta9.detalhe}</p>}
+        </div>
+        <QuadradosPergunta9 historico={resumo.pergunta9} />
       </div>
       <div>
         <p className="text-muted-foreground">Estressores mais marcados</p>

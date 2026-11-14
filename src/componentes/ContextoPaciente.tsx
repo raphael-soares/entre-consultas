@@ -1,23 +1,32 @@
 import type { ReactNode } from 'react'
 import { nomeEstressor } from '@/dominio/phq9'
-import type { ResumoEncaminhamento } from '@/dominio/tipos'
+import { estressoresMaisMarcados } from '@/dominio/resumo'
+import type { Ficha } from '@/estado/consultas'
 
-export function CartaoLateral({ titulo, children }: { titulo: string; children: ReactNode }) {
+export function CartaoLateral({
+  titulo,
+  legenda,
+  children,
+}: {
+  titulo: string
+  legenda?: string
+  children: ReactNode
+}) {
   return (
     <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-      <h2 className="text-[13px] font-semibold tracking-wide text-muted-foreground uppercase">{titulo}</h2>
+      <h2 className="text-[17px] font-semibold">{titulo}</h2>
+      {legenda && <p className="text-[13px] text-muted-foreground">{legenda}</p>}
       <div className="mt-3 text-[15px]">{children}</div>
     </section>
   )
 }
 
-export function ContextoPaciente({
-  estressores,
-  contexto,
-}: Pick<ResumoEncaminhamento, 'estressores' | 'contexto'>) {
+export function ContextoPaciente({ ficha }: { ficha: Pick<Ficha, 'respostas' | 'cadastro'> }) {
+  const estressores = estressoresMaisMarcados(ficha.respostas)
+  const { escolaridade, trabalho, grupoComunitario } = ficha.cadastro
   return (
     <>
-      <CartaoLateral titulo="Estressores nas últimas 4 respostas">
+      <CartaoLateral titulo="Estressores" legenda="Nas últimas 4 respostas">
         {estressores.length === 0 ? (
           <p className="text-muted-foreground">Nenhum marcado</p>
         ) : (
@@ -33,20 +42,20 @@ export function ContextoPaciente({
           </ul>
         )}
       </CartaoLateral>
-      <CartaoLateral titulo="Contexto social (e-SUS)">
+      <CartaoLateral titulo="Contexto social" legenda="Do cadastro no e-SUS">
         <dl className="flex flex-col gap-2">
-          <div>
-            <dt className="text-[13px] text-muted-foreground">Escolaridade</dt>
-            <dd>{contexto.escolaridade}</dd>
-          </div>
-          <div>
-            <dt className="text-[13px] text-muted-foreground">Trabalho</dt>
-            <dd>{contexto.trabalho}</dd>
-          </div>
-          <div>
-            <dt className="text-[13px] text-muted-foreground">Grupo comunitário</dt>
-            <dd>{contexto.grupoComunitario}</dd>
-          </div>
+          {(
+            [
+              ['Escolaridade', escolaridade],
+              ['Trabalho', trabalho],
+              ['Grupo comunitário', grupoComunitario],
+            ] as const
+          ).map(([rotulo, valor]) => (
+            <div key={rotulo}>
+              <dt className="text-[13px] text-muted-foreground">{rotulo}</dt>
+              <dd>{valor}</dd>
+            </div>
+          ))}
         </dl>
       </CartaoLateral>
     </>

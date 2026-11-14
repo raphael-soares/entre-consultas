@@ -8,7 +8,6 @@ import { Button } from '@/componentes/ui/button'
 import { nomeDoUsuario } from '@/dados/fixtures'
 import { HOJE, dataCurta, dataLonga, idade } from '@/dominio/hoje'
 import { OPCOES } from '@/dominio/phq9'
-import { estressoresMaisMarcados } from '@/dominio/resumo'
 import { MOTIVOS_TRANSFERENCIA } from '@/dominio/rotulos'
 import { useFicha, type Ficha } from '@/estado/consultas'
 import { DialogoEncerrar } from './DialogoEncerrar'
@@ -90,7 +89,7 @@ export function Evolucao() {
 
       <div className="grid grid-cols-[minmax(0,1fr)_300px] gap-5">
         <div className="flex min-w-0 flex-col gap-5">
-          <CartaoAgora ultima={ficha.ultima} tratamento={ficha.tratamento} />
+          <CartaoAgora ficha={ficha} />
           <section className="rounded-xl bg-card p-5 ring-1 ring-border">
             <h2 className="mb-3 text-[17px] font-semibold">Evolução</h2>
             {ficha.respostas.length ? (
@@ -108,14 +107,7 @@ export function Evolucao() {
           </section>
         </div>
         <div className="flex flex-col gap-5">
-          <ContextoPaciente
-            estressores={estressoresMaisMarcados(ficha.respostas)}
-            contexto={{
-              escolaridade: cadastro.escolaridade,
-              trabalho: cadastro.trabalho,
-              grupoComunitario: cadastro.grupoComunitario,
-            }}
-          />
+          <ContextoPaciente ficha={ficha} />
           <Historico ficha={ficha} />
         </div>
       </div>

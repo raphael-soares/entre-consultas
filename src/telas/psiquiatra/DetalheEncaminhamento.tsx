@@ -2,9 +2,9 @@ import { ChevronLeft, FileX } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router'
 import { CartaoAgora } from '@/componentes/CartaoAgora'
+import { CartaoLateral, ContextoPaciente } from '@/componentes/ContextoPaciente'
 import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { GraficoEvolucao } from '@/componentes/GraficoEvolucao'
-import { ResumoGerado } from '@/componentes/ResumoGerado'
 import { Button } from '@/componentes/ui/button'
 import { CADASTROS, UNIDADE, nomeDoUsuario } from '@/dados/fixtures'
 import { HOJE, dataLonga, idade } from '@/dominio/hoje'
@@ -69,39 +69,41 @@ export function DetalheEncaminhamento() {
         )}
       </header>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_380px] items-start gap-5">
-        <div className="flex min-w-0 flex-col gap-5">
-          <section className="flex flex-col gap-4 rounded-xl bg-card p-5 ring-1 ring-border">
-            <h2 className="text-[17px] font-semibold">Encaminhamento</h2>
-            {(
-              [
-                ['Motivo', encaminhamento.motivo],
-                ['Prejuízo funcional', encaminhamento.prejuizoFuncional],
-                ['Tratamentos já feitos', encaminhamento.tratamentos],
-              ] as const
-            ).map(([rotulo, texto]) => (
-              <div key={rotulo}>
-                <p className="text-[13px] text-muted-foreground">{rotulo}</p>
-                <p className="mt-0.5 text-[15px]">{texto}</p>
-              </div>
-            ))}
-          </section>
-          <CartaoAgora ultima={ficha.ultima} tratamento={ficha.tratamento} />
-          <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-            <h2 className="mb-3 text-[17px] font-semibold">Evolução</h2>
-            <GraficoEvolucao
-              respostas={ficha.respostas}
-              lacunas={ficha.lacunas}
-              inicio={ficha.acompanhamento.inicio}
-              ate={ficha.acompanhamento.encerramento?.data ?? HOJE}
-            />
-          </section>
-        </div>
-        <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-          <h2 className="text-[17px] font-semibold">Resumo na data do encaminhamento</h2>
-          <p className="mt-1 mb-5 text-[13px] text-muted-foreground">Gerado pelo sistema em {dataLonga(encaminhamento.data)}.</p>
-          <ResumoGerado resumo={encaminhamento.resumo} />
+      <figure className="rounded-xl border-l-4 border-primary bg-card py-4 pr-6 pl-5 ring-1 ring-border">
+        <figcaption className="text-[13px] font-medium text-muted-foreground">Motivo do encaminhamento</figcaption>
+        <blockquote className="mt-1 text-[17px] leading-relaxed">{encaminhamento.motivo}</blockquote>
+      </figure>
+
+      <CartaoAgora ficha={ficha} />
+
+      <div className="grid grid-cols-[minmax(0,1fr)_340px] items-start gap-5">
+        <section className="min-w-0 rounded-xl bg-card p-5 ring-1 ring-border">
+          <h2 className="mb-3 text-[17px] font-semibold">Evolução</h2>
+          <GraficoEvolucao
+            respostas={ficha.respostas}
+            lacunas={ficha.lacunas}
+            inicio={ficha.acompanhamento.inicio}
+            ate={ficha.acompanhamento.encerramento?.data ?? HOJE}
+          />
         </section>
+        <div className="flex flex-col gap-5">
+          <CartaoLateral titulo="Encaminhamento">
+            <dl className="flex flex-col gap-3">
+              {(
+                [
+                  ['Prejuízo funcional', encaminhamento.prejuizoFuncional],
+                  ['Tratamentos já feitos', encaminhamento.tratamentos],
+                ] as const
+              ).map(([rotulo, texto]) => (
+                <div key={rotulo}>
+                  <dt className="text-[13px] text-muted-foreground">{rotulo}</dt>
+                  <dd>{texto}</dd>
+                </div>
+              ))}
+            </dl>
+          </CartaoLateral>
+          <ContextoPaciente ficha={ficha} />
+        </div>
       </div>
     </div>
   )

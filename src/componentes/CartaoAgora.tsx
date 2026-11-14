@@ -1,44 +1,67 @@
-import type { RespostaTratamento } from '@/dominio/evolucao'
+import type { ReactNode } from 'react'
 import { TEXTO_RESPOSTA_TRATAMENTO, textoVariacao } from '@/dominio/evolucao'
-import { dataLonga } from '@/dominio/hoje'
+import { HOJE, dataLonga, semanasEntre } from '@/dominio/hoje'
 import { COMO_RESPONDEU, pontuacao } from '@/dominio/phq9'
-import type { Resposta } from '@/dominio/tipos'
+import { lerPergunta9 } from '@/dominio/resumo'
+import type { Ficha } from '@/estado/consultas'
+import { cn } from '@/lib/utils'
 import { BadgeFaixa } from './BadgeFaixa'
 
-export function CartaoAgora({ ultima, tratamento }: { ultima?: Resposta; tratamento: RespostaTratamento }) {
-  if (!ultima) {
-    return (
-      <section className="rounded-xl bg-card p-5 ring-1 ring-border">
-        <h2 className="text-[13px] font-semibold tracking-wide text-muted-foreground uppercase">Agora</h2>
-        <p className="mt-2 text-[17px] font-semibold">Ainda sem respostas neste acompanhamento</p>
-      </section>
-    )
-  }
-  const atual = pontuacao(ultima.itens)
+function Celula({ rotulo, children }: { rotulo: string; children: ReactNode }) {
   return (
-    <section className="grid grid-cols-[auto_1fr_1fr] gap-6 rounded-xl bg-card p-5 ring-1 ring-border">
-      <div>
-        <h2 className="text-[13px] font-semibold tracking-wide text-muted-foreground uppercase">Agora</h2>
-        <div className="mt-1 flex items-center gap-3">
-          <span className="text-[44px] leading-none font-bold tracking-tight">{atual}</span>
-          <BadgeFaixa pontuacao={atual} />
-        </div>
-        <p className="mt-2 text-[13px] text-muted-foreground">
-          {dataLonga(ultima.data)} · {COMO_RESPONDEU[ultima.canal]}
+    <div className="flex min-w-0 flex-col gap-1 border-l pl-5 first:border-l-0 first:pl-0">
+      <p className="text-[13px] font-medium text-muted-foreground">{rotulo}</p>
+      {children}
+    </div>
+  )
+}
+
+const Legenda = ({ children }: { children: ReactNode }) => (
+  <p className="text-[13px] leading-snug text-muted-foreground">{children}</p>
+)
+
+export function CartaoAgora({ ficha }: { ficha: Ficha }) {
+  const { ultima, tratamento, acompanhamento, respostas } = ficha
+  const semanas = semanasEntre(acompanhamento.inicio, acompanhamento.encerramento?.data ?? HOJE)
+  const pergunta9 = lerPergunta9(respostas.map((r) => ({ data: r.data, valor: r.itens[8] })))
+
+  return (
+    <section className="grid grid-cols-4 gap-5 rounded-xl bg-card p-5 ring-1 ring-border">
+      <Celula rotulo="Agora">
+        {ultima ? (
+          <>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="text-[40px] leading-none font-bold tracking-tight tabular-nums">
+                {pontuacao(ultima.itens)}
+              </span>
+              <BadgeFaixa pontuacao={pontuacao(ultima.itens)} />
+            </div>
+            <Legenda>
+              {dataLonga(ultima.data)} · {COMO_RESPONDEU[ultima.canal]}
+            </Legenda>
+          </>
+        ) : (
+          <p className="text-[17px] font-semibold">Sem respostas</p>
+        )}
+      </Celula>
+      <Celula rotulo="Resposta ao tratamento">
+        <p className="text-[17px] leading-snug font-semibold">{TEXTO_RESPOSTA_TRATAMENTO[tratamento.tipo]}</p>
+        {tratamento.inicial !== null && tratamento.atual !== null && respostas.length > 1 && (
+          <Legenda>{textoVariacao(tratamento.inicial, tratamento.atual)}</Legenda>
+        )}
+      </Celula>
+      <Celula rotulo="Acompanhamento">
+        <p className="text-[17px] leading-snug font-semibold">
+          {semanas} {semanas === 1 ? 'semana' : 'semanas'}
         </p>
-      </div>
-      <div className="border-l pl-6">
-        <p className="text-[13px] font-semibold tracking-wide text-muted-foreground uppercase">Resposta ao tratamento</p>
-        <p className="mt-2 text-[17px] font-semibold">{TEXTO_RESPOSTA_TRATAMENTO[tratamento.tipo]}</p>
-      </div>
-      <div className="border-l pl-6">
-        <p className="text-[13px] font-semibold tracking-wide text-muted-foreground uppercase">Desde o início</p>
-        <p className="mt-2 text-[17px] font-semibold">
-          {tratamento.inicial !== null && tratamento.atual !== null
-            ? textoVariacao(tratamento.inicial, tratamento.atual)
-            : 'Uma resposta só'}
+        <Legenda>desde {dataLonga(acompanhamento.inicio)}</Legenda>
+      </Celula>
+      <Celula rotulo="Pergunta 9">
+        <p className={cn('text-[17px] leading-snug font-semibold', pergunta9.positiva && 'text-risco')}>
+          {pergunta9.titulo}
         </p>
-      </div>
+        {pergunta9.detalhe && <Legenda>{pergunta9.detalhe}</Legenda>}
+      </Celula>
     </section>
   )
 }
