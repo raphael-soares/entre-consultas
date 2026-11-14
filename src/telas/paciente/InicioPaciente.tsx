@@ -85,13 +85,16 @@ export function InicioPaciente() {
       </Link>
 
       {cadastro.celular && (
-        <p className="flex gap-3 rounded-xl bg-card px-5 py-4 text-[15px] ring-1 ring-border">
+        <div className="flex items-start gap-3 rounded-xl bg-card px-5 py-4 ring-1 ring-border">
           <MessageCircle className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
-          <span>
-            No dia do questionário, mandamos uma mensagem no WhatsApp para {cadastro.celular}. Dá para responder por lá
-            mesmo.
-          </span>
-        </p>
+          <div>
+            <p className="text-[17px] font-semibold">Também pelo WhatsApp</p>
+            <p className="text-[15px] text-muted-foreground">
+              No dia, chega uma mensagem no <span className="whitespace-nowrap">{cadastro.celular}</span> e você responde
+              por lá.
+            </p>
+          </div>
+        </div>
       )}
 
       <a href="tel:188" className="mt-auto flex min-h-11 items-center gap-3 rounded-xl px-1 py-2 text-[15px]">
