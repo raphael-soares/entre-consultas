@@ -69,10 +69,10 @@ export function DetalheEncaminhamento() {
         )}
       </header>
 
-      <figure className="rounded-xl border-l-4 border-primary bg-card py-4 pr-6 pl-5 ring-1 ring-border">
-        <figcaption className="text-[13px] font-medium text-muted-foreground">Motivo do encaminhamento</figcaption>
-        <blockquote className="mt-1 text-[17px] leading-relaxed">{encaminhamento.motivo}</blockquote>
-      </figure>
+      <section className="rounded-xl bg-card p-5 ring-1 ring-border">
+        <h2 className="text-[17px] font-semibold">Motivo do encaminhamento</h2>
+        <p className="mt-1 text-[17px] leading-relaxed">{encaminhamento.motivo}</p>
+      </section>
 
       <CartaoAgora ficha={ficha} />
 
