@@ -4,10 +4,17 @@ import { EstadoVazio } from '@/componentes/EstadoVazio'
 import { Logo } from '@/componentes/Logo'
 import { Button } from '@/componentes/ui/button'
 import { CADASTROS, UNIDADE } from '@/dados/fixtures'
-import { dataLonga } from '@/dominio/hoje'
+import { HOJE, dataPorExtenso, diasEntre } from '@/dominio/hoje'
 import { useFicha } from '@/estado/consultas'
 import { rascunhoVazio } from '@/estado/rascunho'
 import { useStore, useUsuarioLogado } from '@/estado/store'
+
+function quando(prevista: string): string {
+  const dias = diasEntre(HOJE, prevista)
+  if (dias <= 0) return 'Já pode responder'
+  if (dias === 1) return 'Amanhã'
+  return `Daqui a ${dias} dias`
+}
 
 export function InicioPaciente() {
   const usuario = useUsuarioLogado()!
@@ -46,7 +53,8 @@ export function InicioPaciente() {
             <CalendarDays className="size-5 text-primary" aria-hidden />
             Próximo questionário
           </p>
-          <p className="mt-1 text-[28px] font-bold tracking-tight">{dataLonga(ficha.prevista)}</p>
+          <p className="mt-1 text-[24px] leading-tight font-bold tracking-tight">{dataPorExtenso(ficha.prevista)}</p>
+          <p className="text-[15px] font-medium text-primary">{quando(ficha.prevista)}</p>
           <p className="mt-2 text-[15px] text-muted-foreground">
             São 9 perguntas sobre as últimas 2 semanas. Leva uns 3 minutos e você pode responder antes, se quiser.
           </p>
